@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
  <head>
-  <title>CSV File to HTML Table Using AJAX jQuery balls</title>
+  <title>CSV File to HTML Table Using AJAX jQuery</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -9,7 +9,7 @@
  <body>
   <div class="container">
    <div class="table-responsive">
-    <h1 align="center">CSV File to HTML Table Using AJAX jQuery ah</h1>
+    <h1 align="center">CSV File to HTML Table Using AJAX jQuery</h1>
     <br />
     <div align="center">
      <button type="button" name="load_data" id="load_data" class="btn btn-info">Load Data</button>
@@ -26,9 +26,9 @@
 $(document).ready(function(){
  $('#load_data').click(function(){
   $.ajax({
-   url:"https://testjohnkara.netlify.app/scattertestloadcsv.html/CommunityData.csv",
+   url:"https://testjohnkara.netlify.app/CommunityData.csv",
    dataType:"text",
-function(data)
+   success:function(data)
    {
     var employee_data = data.split(/\r?\n|\r/);
     var table_data = '<table class="table table-bordered table-striped">';
