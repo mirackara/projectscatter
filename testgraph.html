@@ -1,47 +1,30 @@
-<!DOCTYPE html>
+<html>
 <head>
- <meta charset="utf-8">
- <meta http-equiv="X-UA-Compatible" content="IE=edge">
- <meta name="viewport" content="width=device-width, initial-scale=1">
- <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
- <!-- http://t.co/dKP3o1e -->
- <meta name="HandheldFriendly" content="True">
- <meta name="MobileOptimized" content="320">
+<script src="https://www.google.com/jsapi"></script>
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="https://jquery-csv.googlecode.com/files/jquery.csv-0.71.js"></script>
+<script>
+google.load("visualization", "1", {packages:["corechart"]});
+google.setOnLoadCallback(drawChart);
 
- <title>Google Graph and CSV</title>
- <meta name="description" content="test">
-
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
- <script src="jquery.csv.min.js"></script>
- <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-
-<script type="text/javascript"> // load the visualisation API
-  google.load('visualization', '1', { packages: ['corechart', 'controls'] });
-</script>
-
-<script type="text/javascript">
-function drawVisualization() {
-   $.get("https://testjohnkara.netlify.app/CommunityData.csv", function(csvString) {
-      // transform the CSV string into a 2-dimensional array
-      var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
-
-      // this new DataTable object holds all the data
-      var data = new google.visualization.arrayToDataTable(arrayData);
-      // CAPACITY - En-route ATFM delay - YY - CHART
-      var crt_ertdlyYY = new google.visualization.ChartWrapper({
-         chartType: 'LineChart',
-         containerId: 'crt_ertdlyYY',
-         dataTable: data,
-         options:{
-            width: 450, height: 160,
-            title: 'EU-wide en-route ATFM delays (year to date)',
-            titleTextStyle : {color: 'grey', fontSize: 11},
-         }
-      });
-      crt_ertdlyYY.draw();
-   });
+    function drawChart() {
+        $.get("https://docs.google.com/spreadsheet/pub?key=0Ao6fMN9Cw0GPdFVtZ29iYmd1cmRORU0yemYxUjE3OVE&single=true&gid=0&output=csv", function(csvString) {
+        var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
+        var data = new google.visualization.arrayToDataTable(arrayData);
+        var view = new google.visualization.DataView(data);
+            view.setColumns([0,1]);
+        var options =   {
+            hAxis: {title: data.getColumnLabel(0), minValue: data.getColumnRange(0).min, maxValue: data.getColumnRange(0).max},
+            vAxis: {title: data.getColumnLabel(1), minValue: data.getColumnRange(1).min, maxValue: data.getColumnRange(1).max},
+            legend: 'none'
+            }
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(view, options);
+    });
 }
-google.setOnLoadCallback(drawVisualization)
 </script>
-
-<div id="crt_ertdlyYY"></div>
+</head>
+<body>
+<div id="chart_div"></div>
+</body>
+</html>
