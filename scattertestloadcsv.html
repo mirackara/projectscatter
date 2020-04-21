@@ -15,7 +15,7 @@
 
     $.ajax({
         type: "GET",
-        url: "/Users/johnkara/desktop/Project_Scatter/CommunityData.csv",
+          url: "https://testjohnkara.netlify.app/CommunityData.csv",
         success: function (data) {
             $('body').append(arrayToTable(Papa.parse(data).data));
         }
