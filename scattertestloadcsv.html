@@ -1,0 +1,23 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.js"></script>
+<script>
+    function arrayToTable(tableData) {
+        var table = $('<table></table>');
+        $(tableData).each(function (i, rowData) {
+            var row = $('<tr></tr>');
+            $(rowData).each(function (j, cellData) {
+                row.append($('<td>'+cellData+'</td>'));
+            });
+            table.append(row);
+        });
+        return table;
+    }
+
+    $.ajax({
+        type: "GET",
+        url: "/Users/johnkara/desktop/Project_Scatter/CommunityData.csv",
+        success: function (data) {
+            $('body').append(arrayToTable(Papa.parse(data).data));
+        }
+    });
+</script>
