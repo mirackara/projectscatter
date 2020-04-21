@@ -21,7 +21,7 @@
 
 <script type="text/javascript">
 function drawVisualization() {
-   $.get("ifr.csv", function(csvString) {
+   $.get("https://testjohnkara.netlify.app/CommunityData.csv", function(csvString) {
       // transform the CSV string into a 2-dimensional array
       var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
 
