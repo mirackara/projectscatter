@@ -57,3 +57,41 @@ $(document).ready(function(){
  
 });
 </script>
+
+
+<script>
+The jquery-csv library provides the ability to translate a string of csv into an array to be used by google.visualization.arrayToDataTable() (their example here). To make this work, add jquery.csv.js to your server (in the example below I assume it is in the same folder as your HTML) and link to it in your <head>. The following is a simple script you can add to your <head> to get started. I assume a scatter chart, but this process works for any of the charts here. You will also need a <div> with id="chart" for this to work.
+
+// load the visualization library from Google and set a listener
+google.load("visualization", "1", {packages:["corechart"]});
+google.setOnLoadCallback(drawChart);
+
+// this has to be a global function
+function drawChart() {
+   // grab the CSV
+   $.get("https://testjohnkara.netlify.app/CommunityData.csv", function(csvString) {
+      // transform the CSV string into a 2-dimensional array
+      var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
+
+      // this new DataTable object holds all the data
+      var data = new google.visualization.arrayToDataTable(arrayData);
+
+      // this view can select a subset of the data at a time
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0,1]);
+
+     // set chart options
+     var options = {
+        title: "A Chart from a CSV!",
+        hAxis: {title: data.getColumnLabel(0), minValue: data.getColumnRange(0).min, maxValue: data.getColumnRange(0).max},
+        vAxis: {title: data.getColumnLabel(1), minValue: data.getColumnRange(1).min, maxValue: data.getColumnRange(1).max},
+        legend: 'none'
+     };
+
+     // create the chart object and draw it
+     var chart = new google.visualization.ScatterChart(document.getElementById('chart'));
+     chart.draw(view, options);
+  });
+}
+</script>
+
