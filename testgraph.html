@@ -9,7 +9,7 @@ google.load("visualization", "1", {packages:["corechart"]});
 google.setOnLoadCallback(drawChart);
 
     function drawChart() {
-        $.get("https://docs.google.com/spreadsheet/pub?key=0Ao6fMN9Cw0GPdFVtZ29iYmd1cmRORU0yemYxUjE3OVE&single=true&gid=0&output=csv", function(csvString) {
+        $.get("https://testjohnkara.netlify.app/CommunityData.csv", function(csvString) {
         var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
         var data = new google.visualization.arrayToDataTable(arrayData);
         var view = new google.visualization.DataView(data);
