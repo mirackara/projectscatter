@@ -1,5 +1,29 @@
-<html>
-  test
-  
-  
-</html>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+       <div id="chart_div" style="width: 900px; height: 500px;"></div>
+   <script>
+         google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var series = '{{series}}';
+        var finalEpNum = '{{finalEpNum}}'
+        var minRatingFinal = '{{minRatingFinal}}'
+        var data1 = google.visualization.arrayToDataTable([
+          ['Episode', 'Rating'],
+          [1, 7.9],[2, 8.3],[3, 8.2],[4, 7.9],[5, 7.8],[6, 8.8],[7, 8.0],[8, 8.8],[9, 8.2],[10, 7.9],[11, 8.5],[12, 8.1],[13, 7.9],[14, 8.1],[15, 8.5],[16, 9.0],[17, 8.0],[18, 8.5],[19, 8.5],[20, 9.3],[21, 8.1],[22, 9.8],[23, 8.2],[24, 8.5],[26, 8.3],[27, 8.1],[28, 8.7],[29, 7.8],[30, 9.3],[31, 8.5],[32, 9.1],[33, 9.4],[34, 8.5],[35, 8.8],[36, 8.1],[37, 7.9],[38, 9.5],[39, 8.1],[40, 8.8],[41, 8.3],[42, 7.5],[43, 9.0],[44, 7.6],[45, 9.1],[46, 8.0],[47, 9.7],[48, 9.6],[50, 8.1],[51, 8.1],[52, 9.8],[53, 8.8],[54, 7.7],[55, 8.6],[56, 9.0],[57, 8.4],[58, 8.7],[59, 7.8],[60, 8.1],[61, 8.2],[62, 9.3],[63, 8.2],[64, 8.7],[65, 9.5],[66, 8.3],[67, 9.2],[68, 9.5],[69, 9.1],[70, 8.8],[72, 7.6],[73, 7.3],[74, 7.1],[75, 7.5],[76, 7.5],[77, 6.8],[78, 7.9],[79, 7.0],[80, 7.6],[81, 8.0],[82, 8.2],[83, 7.8],[85, 8.6],[86, 9.0],[87, 9.2],[88, 9.4],[89, 8.2],[90, 7.9],[91, 9.0],[92, 8.1],[93, 8.5],[94, 8.0],[95, 7.9],[96, 8.3],[98, 7.7],[99, 7.8],[100, 8.1],[101, 7.8],[102, 7.8],[103, 7.5],[104, 8.0],[105, 7.8],[106, 7.6],[107, 9.0],[108, 8.6],[109, 9.6]
+        ]);
+
+        var options = {
+
+          title: series,
+          hAxis: {title: 'Episode', minValue: 1, maxValue: finalEpNum},
+          vAxis: {title: 'Rating', minValue: minRatingFinal , maxValue: 10},
+          legend: true
+        };
+
+        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+
+        chart.draw(data1, options);
+      }
+   
+   </script>
