@@ -4,10 +4,16 @@ import matplotlib.pyplot as plt
 import numpy as np
 from numpy.polynomial.polynomial import polyfit
 from imdb import IMDb
+
 import random
 import csv
 import itertools 
-from flask import render_template
+from flask import Flask, request, render_template
+import random
+import os
+
+
+
 
 # create an instance of the IMDb class
 ia = IMDb()
@@ -59,10 +65,9 @@ for i in range(1,len(allSeasons)+1):
       #i = episode number
     fOut = (x[i], round(sRating[i],1))
     f.write(str(fOut))
-
     if (i == len(sNum)-1):
       f.write(",")
-      
+  finalEpNum = fOut[0]
   plt.plot(np.unique(x), np.poly1d(np.polyfit(x, sRating, 1))(np.unique(x)),color=color)
 
 minRatingList = (min(allsznRating))
@@ -72,7 +77,6 @@ plt.ylabel("Rating")
 plt.xlabel("Episode")
 plt.title(series)
 plt.ylim(minRatingFinal, 10)
-plt.show() 
 plt.savefig(figName)
 f.close()
 
@@ -85,3 +89,16 @@ with open(fileName, 'r') as file:
 f = open(str(fileName),'w')
 f.write(data)
 f.close()
+
+app = Flask(__name__)
+@app.route('/')
+def hello_world():
+    x = [0.2]
+    y = [0.4]
+    finalEpNumSpaced = finalEpNum + 10
+
+    return render_template('Scatter.html', x = x, y = y, series = series,finalEpNum = finalEpNumSpaced,minRatingFinal = minRatingFinal)
+
+
+if __name__ == '__main__':
+    app.run()
