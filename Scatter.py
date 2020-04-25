@@ -85,20 +85,26 @@ with open(fileName, 'r') as file:
     data = file.read().replace('(', '[')
     data = data.replace(')', ']')
     data = data.replace('][', '],[')
-
+    data = data.replace('68],[', '68]')
 f = open(str(fileName),'w')
 f.write(data)
 f.close()
+print(data)
 
 app = Flask(__name__)
 @app.route('/')
-def hello_world():
-    x = [0.2]
-    y = [0.4]
-    finalEpNumSpaced = finalEpNum + 10
+def SendtoHTML():
+    datapointTest = [3, 8.7, "0000ff"]
+    dataPoint = datapointTest
 
-    return render_template('Scatter.html', x = x, y = y, series = series,finalEpNum = finalEpNumSpaced,minRatingFinal = minRatingFinal)
+    return render_template('Scatter.html', series = series,finalEpNum = finalEpNum,minRatingFinal = minRatingFinal ,dataPoint = datapointTest)
+
+def run():
+    if __name__ == '__main__':
+        app.run()
 
 
-if __name__ == '__main__':
-    app.run()
+run()
+
+
+
