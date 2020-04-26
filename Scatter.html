@@ -5,15 +5,16 @@
       google.charts.setOnLoadCallback(drawChart);
 
       function drawChart() {
+        var data = '{{dataPoint}}'
         var series = '{{series}}';
         var finalEpNum = '{{finalEpNum}}'
         var minRatingFinal = '{{minRatingFinal}}'
         var data1 = google.visualization.arrayToDataTable([
-            ['Episode', 'Rating'],
+            ['Epissode', 'Rating'],
         ]);
 
         var options = {
-
+          
           title: series,
           hAxis: {title: 'Episode', minValue: 1, maxValue: finalEpNum},
           vAxis: {title: 'Rating', minValue: minRatingFinal , maxValue: 10},
@@ -33,15 +34,21 @@
       google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
-        var dataPoint = '{{ dataPoint }}';
+        var dataPoint = {{ dataPoint | tojson }};
+
+        console.log(dataPoint);
         var series = '{{series}}';
-        var finalEpNum = '{{finalEpNum}}'
+        var finalEpUnparsed = {{finalEpNum}}
+        var finalEpNum = parseInt(finalEpUnparsed, 10);
+
         var minRatingFinal = '{{minRatingFinal}}'
         var data1 = google.visualization.arrayToDataTable([
             ['Episode', 'Rating', { role: 'style', type: 'string' }],  // <-- add style role
-            [1, 8.7, "0000ff"],
-            [2, 6.7, "orange"]
+            dataPoint[0]
+            
         ]);
+        for (i = 1; i < 100; i++){
+        data1.addRows([dataPoint[i]]);}
 
         var options = {
 
@@ -59,7 +66,21 @@
 
 </script>
 
+<pre id="log"></pre>
+<script>
+(function () {
+    var old = console.log;
+    var logger = document.getElementById('log');
+    console.log = function () {
+      for (var i = 0; i < arguments.length; i++) {
+        if (typeof arguments[i] == 'object') {
+            logger.innerHTML += (JSON && JSON.stringify ? JSON.stringify(arguments[i], undefined, 2) : arguments[i]) + '<br />';
+        } else {
+            logger.innerHTML += arguments[i] + '<br />';
+        }
+      }
+    }
+})();
 
-
-
-
+console.log(dataPoint);
+</script>
