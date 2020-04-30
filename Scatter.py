@@ -1,127 +1,117 @@
-import matplotlib.pyplot as plt 
-import numpy as np
 from imdb import IMDb
-import os.path
 import random
-import csv
-from flask import Flask, request, render_template
+from flask import Flask, request, url_for, redirect, render_template
 import random
-import os
 
-# create an instance of the IMDb class
+
+
+# Create an instance of the IMDb class 
 tvShow = IMDb()
-#Community : 1439629
-#Breaking Bad : 0903747
-#Game of Thrones : 0944947
-#Simpsons : 0096697
-
-series = tvShow.get_movie('1439629')
-
-print('Catalogging', series)
-
-tvShow.update(series, 'episodes')
-allSeasons = sorted(series['episodes'].keys())
-episodes = series.get('episodes')
-
-allsznRating = []
-allsznNum = []
-dataTest = []
 
 
 
-counterNum = 0
-counterNumFirst = 0
-
-
-
-
-
-def ratingGrabber(s):
-  epNum = []
-  epRating = []
-  for i in range(1,len(s)+1):
-    epRating.append(s[i]['rating'])
-    epNum.append(i)
-  return epRating, epNum
-
-def seasonColorPicker():
-  random_number = random.randint(0,16777215)
-  hex_number = str(hex(random_number))
-  hex_number ='#'+ hex_number[2:]
-
-  return hex_number
-
-def graph(x,y):
-  plt.scatter(x,y, label='Episode', color=color, s=30, marker="o")
-
-
-fileName = str(series)+"Data"+ ".csv"
-f = open(str(fileName),'a')
-f.write('epNum,Rating \n')
-
-if (os.path.isfile(fileName) == True ):
-  print('File already exists!')
-  print('Skipping to starting flask...')
-  
-for i in range(1,len(allSeasons)+1):
-  Season = series['episodes'][i]
-  SeasonRatings = ratingGrabber(Season)[0]
-  allsznRating.append(SeasonRatings)
-  sNum = ratingGrabber(Season)[1]  
-  ratingLength = int(len(sNum))
-  allsznNum.append(sNum)
-  counterNumFirst = counterNum 
-  counterNum = counterNum + ratingLength
-  x = list(range(counterNumFirst,counterNum))
-  r = random.random()
-  b = random.random()
-  g = random.random()
-  color = (r, g, b)
-  graph(x,SeasonRatings)
-  colorPicked = seasonColorPicker()
-  for i in range(1,len(sNum)):
-      #i = episode number
-    if (i == len(sNum)-1):
-      f.write("")
-      #f.write('New Season \n') THIS WILL DIVIDE THE SEASONS UP IN CSV AND 
-      
-    rating = str(round(SeasonRatings[i],1))
-    epNum = str(x[i])
-    i = int(epNum)
-    #dataTest.append([i,float(round(SeasonRatings[i],1)), "0000ff"])
-    print(i)
-    fOut = (epNum + ',' +rating + '\n')
-    dataTest.append([int(epNum), float(rating),str(colorPicked)])
-    f.write(fOut)
+class GetShowData:
     
-  finalEpNum = epNum
-  plt.plot(np.unique(x), np.poly1d(np.polyfit(x, SeasonRatings, 1))(np.unique(x)),color=color)
+    def __init__(self,Name,ID):
+        self.Name = Name
+        self.ID = ID
+        
+       #Returns the name of show
+    def getName(self):
+        getName = tvShow.get_movie(self.ID)
+        return getName
 
-minRatingList = (min(allsznRating))
-minRatingFinal = (min(minRatingList)) - 1 
-figName = str(series) + ".png"
-plt.ylabel("Rating")
-plt.xlabel("Episode")
-plt.title(series)
-plt.ylim(minRatingFinal, 10)
-plt.savefig(figName)
-f.close()
-print('final ep : ', finalEpNum)
+       #Returns Both Episode Data and Rating Data
+    def seriesDataGrabber(self,Season):
+        epNum = []
+        epRating = []
 
-with open(fileName, 'r') as file:
-    data = file.read().replace('(', '')
-    data = data.replace(')', '\n')
-f = open(str(fileName),'w')
-f.write(data)
-f.close()
-print(dataTest)
+        for i in range(1,len(Season)+1):
+            try:
+                epRating.append(Season[i]['rating'])
+                epNum.append(i)
+            except:
+                return epRating, epNum
+
+        return epRating, epNum
+
+
+    def seasonColorPicker(self):
+      random_number = random.randint(0,16777215)
+      hex_number = str(hex(random_number))
+      hex_number ='#'+ hex_number[2:]
+
+      return hex_number
+
+
+       #Returns Total Episodes and Ratings numbered in list.
+    def listSeriesData(self):
+        seriesName = GetShowData.getName(self)
+        tvShow.update(seriesName, 'episodes')
+        totalSeasons = len(sorted(seriesName['episodes'].keys())) + 1
+        seriesDataList = []
+        allEpRatings = []
+        episodeCounter = 0
+        episodeCounterList = []
+        ### Loops thru 'i' amount of Seasons.
+        for i in range(1,totalSeasons):
+          Season = seriesName['episodes'][i]
+          ColorPicked = GetShowData.seasonColorPicker(self)
+         
+         ##Episode
+          epNum = GetShowData.seriesDataGrabber(self,Season)[1]          
+          ## [1,2,3,...,X]
+
+          ##Rating
+
+          SeasonRatings = GetShowData.seriesDataGrabber(self,Season)[0]
+          ## [9.45,6.46,7.45,...,Y]
+
+          # Loops through 'i' amount of Episodes.
+          for i in range(1,len(epNum)+1):
+            episodeCounter+=1
+            ratingFloat = float(SeasonRatings[i-1])
+            ratingFloat = round(ratingFloat, 2)
+            print(ratingFloat)
+            seriesDataList.append([episodeCounter, ratingFloat ,str(ColorPicked)])
+        return  seriesDataList
+    
+
+
+'''
+
+class FlaskData:
+    ......
+
+
+'''
+FlashData = GetShowData('The Flash','3107288')
+DataPoint = FlashData.listSeriesData()
+lastEp = DataPoint[-1][0]
+Y = []
+#Gets all Y's into a list
+for i in range (0,lastEp):
+    Y.append(DataPoint[i][1])
+
+averageYRating = sum(Y) / len(Y)
+averageYRating = round(averageYRating,2) 
+ScaledYAxis = averageYRating - 3 
+ScaledYAxis = round(ScaledYAxis, 2)
+print(ScaledYAxis)
 app = Flask(__name__)
+
 @app.route('/')
-def SendtoHTML():
-    finalEpNumParsable = int(finalEpNum)
-    datapointTest = [[1, 8.7, "0000ff"],[2, 6.7, "orange"],[3, 8.7, "0000ff"],[4,6.7,'red']]
-    render = render_template('Scatter.html', series = series,finalEpNum = finalEpNumParsable,minRatingFinal = minRatingFinal ,dataPoint = dataTest,season1 = datapointTest)
-    return render
+def index():
+    return render_template('index.html',Title = 'The Flash' )
+
+@app.route('/Scatter', methods=['GET', 'POST'])
+def Scatter():
+    if request.method == 'POST':
+        return redirect(url_for('index'))
+    returnScatter = render_template('Scatter.html', series = FlashData.getName() ,finalEpNum = lastEp ,minRatingFinal = ScaledYAxis ,dataPoint = DataPoint)
+
+    return returnScatter
+
 
 def run():
     if __name__ == '__main__':
@@ -129,6 +119,5 @@ def run():
 
 
 run()
-
 
 
