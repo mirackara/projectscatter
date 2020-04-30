@@ -1,13 +1,19 @@
 <!doctype html>
 <html>
-<body>
-    <form method="post">
-        <button type="submit">Back</button>
-    </form>
 
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<div id="chart_div" style="width: 900px; height: 500px;"></div>
-<script>
+<body>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+
+
+
+
+
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+    <script>
          google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawChart);
 
@@ -17,7 +23,7 @@
         var finalEpUnparsed = {{ finalEpNum }};
         var finalEpNum = parseInt(finalEpUnparsed, 10);
         var minRatingFinal = {{minRatingFinal}}
-  
+
         var data1 = google.visualization.arrayToDataTable([
             ['Episode', 'Rating', { role: 'style', type: 'string' }],  // <-- add style role
             dataPoint[0]
@@ -40,23 +46,43 @@
         chart.draw(data1, options);
       }
 
-</script>
+    </script>
+
+
+
+
+
+
+
+
+
+
+
 
 <pre id="log"></pre>
-<script>
-    (function () {
-        var old = console.log;
-        var logger = document.getElementById('log');
-        console.log = function () {
-            for (var i = 0; i < arguments.length; i++) {
-                if (typeof arguments[i] == 'object') {
-                    logger.innerHTML += (JSON && JSON.stringify ? JSON.stringify(arguments[i], undefined, 2) : arguments[i]) + '<br />';
-                } else {
-                    logger.innerHTML += arguments[i] + '<br />';
+    <script>
+        (function () {
+            var old = console.log;
+            var logger = document.getElementById('log');
+            console.log = function () {
+                for (var i = 0; i < arguments.length; i++) {
+                    if (typeof arguments[i] == 'object') {
+                        logger.innerHTML += (JSON && JSON.stringify ? JSON.stringify(arguments[i], undefined, 2) : arguments[i]) + '<br />';
+                    } else {
+                        logger.innerHTML += arguments[i] + '<br />';
+                    }
                 }
             }
-        }
-    })();
+        })();
 
-</script>
+    </script>
+
+
+        <form method="POST">
+        <button type="submit">Back</button>
+    </form>
+</body>
+
+
+
 </html>
