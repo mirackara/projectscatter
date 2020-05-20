@@ -28,7 +28,7 @@ def getStats(DataPoint):
 ScaledYAxisSV, lastEpSV = getStats(DataPointSV)
 ScaledYAxisFlash, lastEpFlash = getStats(DataPointFlash)
 
-
+ 
 
 app = Flask(__name__)
 @app.route('/')
