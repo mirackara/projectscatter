@@ -47,23 +47,18 @@ class GetShowData:
         tvShow.update(seriesName, 'episodes')
         totalSeasons = len(sorted(seriesName['episodes'].keys())) + 1
         seriesDataList = []
-        allEpRatings = []
         episodeCounter = 0
-        episodeCounterList = []
         ### Loops thru 'i' amount of Seasons.
         for i in range(1,totalSeasons):
           Season = seriesName['episodes'][i]
           ColorPicked = GetShowData.seasonColorPicker(self)
-          seasonNumber = i
          ##Episode
           epNum = GetShowData.seriesDataGrabber(self,Season)[1]
           ## [1,2,3,...,X]
-
           ##Rating
 
           SeasonRatings = GetShowData.seriesDataGrabber(self,Season)[0]
           ## [9.45,6.46,7.45,...,Y]
-
           # Loops through 'i' amount of Episodes.
           for i in range(1,len(epNum)+1):
             episodeCounter+=1
@@ -71,6 +66,3 @@ class GetShowData:
             ratingFloat = round(ratingFloat, 2)
             seriesDataList.append([episodeCounter, ratingFloat ,str(ColorPicked)])
         return  seriesDataList
-
-
-

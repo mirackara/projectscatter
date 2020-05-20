@@ -7,11 +7,9 @@ import requests
 
 
 
-SV = GetShowData('2575988')
-DataPointSV = SV.listSeriesData()
 
-Flash = GetShowData('3107288')
-DataPointFlash = Flash.listSeriesData()
+Show = GetShowData('3107288')
+ShowDataPoint = Show.listSeriesData()
 
 def getStats(DataPoint):
     lastEp = DataPoint[-1][0]
@@ -25,15 +23,14 @@ def getStats(DataPoint):
         ScaledYAxis = round(ScaledYAxis, 2)
     return ScaledYAxis, lastEp
 
-ScaledYAxisSV, lastEpSV = getStats(DataPointSV)
-ScaledYAxisFlash, lastEpFlash = getStats(DataPointFlash)
+ScaledYAxis, lastEp = getStats(ShowDataPoint)
 
  
 
 app = Flask(__name__)
 @app.route('/')
 def index():
-    template = render_template('index.html',seriesFlash = Flash.getName(),finalEpNumFlash = lastEpFlash,minRatingFinalFlash = ScaledYAxisFlash ,seriesSV = SV.getName() ,finalEpNumSV = lastEpSV ,minRatingFinal = ScaledYAxisSV ,dataPointSV = DataPointSV, dataPointFlash = DataPointFlash)
+    template = render_template('index.html',series = Show.getName(),finalEpNum = lastEp,minRatingFinal = ScaledYAxis , dataPoint = ShowDataPoint)
     return template
 
 
@@ -56,12 +53,11 @@ def my_form_post():
     showID = int(showID.split("[")[0])
     print('Show ID:')
     print(showID)
-    Flash = GetShowData(showID)
-    DataPointFlash = Flash.listSeriesData()
-    ScaledYAxisFlash, lastEpFlash = getStats(DataPointFlash)
+    Show = GetShowData(showID)
+    DataPoint = Show.listSeriesData()
+    ScaledYAxis, lastEp = getStats(DataPoint)
 
-
-    template = render_template('index.html',seriesFlash = Flash.getName(),finalEpNumFlash = lastEpFlash,minRatingFinalFlash = ScaledYAxisFlash ,seriesSV = SV.getName() ,finalEpNumSV = lastEpSV ,minRatingFinal = ScaledYAxisSV ,dataPointSV = DataPointSV, dataPointFlash = DataPointFlash)
+    template = render_template('index.html',series = Show.getName(),finalEpNum = lastEp,minRatingFinal = ScaledYAxis , dataPoint = DataPoint)
     return template
 
 
