@@ -3,17 +3,16 @@ import random
 
 
 
-# Create an instance of the IMDb class 
+# Create an instance of the IMDb class
 tvShow = IMDb()
 
 
 
 class GetShowData:
-     
-    def __init__(self,Name,ID):
-        self.Name = Name 
+
+    def __init__(self,ID):
         self.ID = ID
-        
+
        #Returns the name of show
     def getName(self):
         getName = tvShow.get_movie(self.ID)
@@ -55,9 +54,9 @@ class GetShowData:
         for i in range(1,totalSeasons):
           Season = seriesName['episodes'][i]
           ColorPicked = GetShowData.seasonColorPicker(self)
-         
+          seasonNumber = i
          ##Episode
-          epNum = GetShowData.seriesDataGrabber(self,Season)[1]          
+          epNum = GetShowData.seriesDataGrabber(self,Season)[1]
           ## [1,2,3,...,X]
 
           ##Rating
@@ -70,9 +69,8 @@ class GetShowData:
             episodeCounter+=1
             ratingFloat = float(SeasonRatings[i-1])
             ratingFloat = round(ratingFloat, 2)
-            print(ratingFloat)
             seriesDataList.append([episodeCounter, ratingFloat ,str(ColorPicked)])
         return  seriesDataList
-    
+
 
 
