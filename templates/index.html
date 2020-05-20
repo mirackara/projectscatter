@@ -1,6 +1,6 @@
 <!doctype html>
 <html>
-  <title>ScatterTV </title>
+
 
     <style>
       /* Style the body */
@@ -19,16 +19,19 @@
       }
 
       /* Page Content */
-      .content {padding:20px;}
+      .content {padding:10px;}
+      
     </style>
 
     <div class="header">
       <center><h1 class="title">ScatterTV</h1></center>
     </div>
 <br>
+<h3><center>Search for a Show Below:</h3></center>
 <center><form method="POST">
     <input name="text">
-    <input type="submit"></center>
+    <br><br>
+    <input type="Submit"></center>
 </form>
   <body>
 
@@ -39,37 +42,21 @@
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawChart);
 
-        //Silicon Valley
-        var dataPointSV = {{ dataPointSV | tojson }};
-        var finalEpUnparsed = {{ finalEpNumSV }};
-        var finalEpNum = parseInt({{finalEpNumSV}});
+        var dataPoint = {{ dataPoint | tojson }};
+        var finalEpUnparsed = {{ finalEpNum }};
+        var finalEpNum = parseInt({{finalEpNum}});
         var minRatingFinal = {{minRatingFinal}}
-
-        //Flash
-        var dataPointFlash = {{ dataPointFlash | tojson }};
-        var finalEpUnparsedFlash = {{ finalEpNumFlash }};
-        var finalEpNumFlash = parseInt({{finalEpNumFlash}});
-        var minRatingFinalFlash = {{minRatingFinalFlash}}
 
 
       function drawChart() {
 
-
-          var data1 = google.visualization.arrayToDataTable([
+          var data2 = google.visualization.arrayToDataTable([
               ['Episode', 'Rating', { role: 'style', type: 'string' }],
-              dataPointSV[0]
+              dataPoint[0]
 
           ]);
           for (i = 1; i < finalEpNum; i++){
-          data1.addRows([dataPointSV[i]]);}
-
-          var data2 = google.visualization.arrayToDataTable([
-              ['Episode', 'Rating', { role: 'style', type: 'string' }],
-              dataPointFlash[0]
-
-          ]);
-          for (i = 1; i < finalEpNumFlash; i++){
-          data2.addRows([dataPointFlash[i]]);}
+          data2.addRows([dataPoint[i]]);}
 
           var options = {
 
@@ -80,19 +67,10 @@
            // trendlines: { 0: {} }    // Draw a trendline for data series 0.
           };
 
-          var options2 = {
-
-            hAxis: {minValue: 1, maxValue: finalEpNumFlash},
-            vAxis: {title: 'Rating', minValue: minRatingFinalFlash , maxValue: 10},
-            legend: 'none',
-            seriesType: 'scatter',
-          // trendlines: { 0: {} }    // Draw a trendline for data series 0.
-          };
 
 
             // Instantiate and draw our chart, passing in some options.
-            var chartSV = new google.visualization.ScatterChart(document.getElementById('chart_div'));
-            chartSV.draw(data1, options);
+
 
             var chart2 = new google.visualization.ScatterChart(document.getElementById('chart_div2'));
             chart2.draw(data2, options);
@@ -101,16 +79,15 @@
         }
 
       </script>
+
       </center>
 
     <!--Divs that will hold the charts-->
       <center> <div id="chart_div2" style="width: 1600px; height: 600px;"></div></center>
-      <center><b>{{seriesFlash}}</b></center>
-      <center><div id="chart_div" style="width: 1600px; height: 600px;"></div></center>
-      <center><b>{{seriesSV}}</b></center>
+      <center><b>{{series}}</b></center>
 
 
   </body>
-
+  <title>ScatterTV - {{series}}</title>
 
 </html>
