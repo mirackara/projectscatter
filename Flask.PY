@@ -11,12 +11,12 @@ import requests
 Show = GetShowData('3107288')
 ShowDataPoint = Show.listSeriesData()
 
-def getStats(DataPoint):
-    lastEp = DataPoint[-1][0]
+def getStats(ShowDataPoint):
+    lastEp = ShowDataPoint[-1][0]
     Y = []
     #Gets all Y's into a list
     for i in range (0,lastEp):
-        Y.append(DataPoint[i][1])
+        Y.append(ShowDataPoint[i][1])
         averageYRating = sum(Y) / len(Y)
         averageYRating = round(averageYRating,2)
         ScaledYAxis = averageYRating - 3
@@ -36,17 +36,24 @@ def index():
 
 
 
-@app.route('/', methods=['POST'])
+@app.route('/', methods=["GET", "POST"])
 def my_form_post():
-    text = request.form['text']
-    processed_text = text.upper()
-    print(processed_text)
+    searchText = request.form['text']
 
-    ##Scrape Data from IMDB.com
+    print(searchText)
+    if (searchText ==''):
+        Show = GetShowData('3107288')
+        ShowDataPoint = Show.listSeriesData()
+        getStats(ShowDataPoint)
+        ScaledYAxis, lastEp = getStats(ShowDataPoint)
 
+        template = render_template('index.html',series = Show.getName(),finalEpNum = lastEp,minRatingFinal = ScaledYAxis , dataPoint = ShowDataPoint)
+        return template
+
+    
     # Create an instance of the IMDb class
     tvShow = IMDb()
-    showID = tvShow.search_movie(processed_text)
+    showID = tvShow.search_movie(searchText)
     del showID[1:]
     showID = str(showID)
     showID = showID[11:]
@@ -57,10 +64,8 @@ def my_form_post():
     DataPoint = Show.listSeriesData()
     ScaledYAxis, lastEp = getStats(DataPoint)
 
-    template = render_template('index.html',series = Show.getName(),finalEpNum = lastEp,minRatingFinal = ScaledYAxis , dataPoint = DataPoint)
-    return template
-
-
+    template = render_template('index.html',processed_text = searchText, series = Show.getName(),finalEpNum = lastEp,minRatingFinal = ScaledYAxis , dataPoint = DataPoint)
+    return template , searchText
 
 
 if __name__ == '__main__':

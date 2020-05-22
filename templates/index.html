@@ -26,13 +26,17 @@
     <div class="header">
       <center><h1 class="title">ScatterTV</h1></center>
     </div>
+    
 <br>
 <h3><center>Search for a Show Below:</h3></center>
 <center><form method="POST">
-    <input name="text">
+    <input name="text" value="{{processed_text}}">
     <br><br>
-    <input type="Submit"></center>
+    <input type="Submit" id = "Search" value="Search"></center>
+    <center><input type="Submit" id = "Change" value="Change Graph Colors"></center>
 </form>
+
+
   <body>
 
       <center>
@@ -43,10 +47,8 @@
         google.charts.setOnLoadCallback(drawChart);
 
         var dataPoint = {{ dataPoint | tojson }};
-        var finalEpUnparsed = {{ finalEpNum }};
         var finalEpNum = parseInt({{finalEpNum}});
         var minRatingFinal = {{minRatingFinal}}
-
 
       function drawChart() {
 
@@ -60,17 +62,14 @@
 
           var options = {
 
-            hAxis: {minValue: 1, maxValue: finalEpNum},
+            hAxis: {title: 'Episode', minValue: 1, maxValue: finalEpNum},
             vAxis: {title: 'Rating', minValue: minRatingFinal , maxValue: 10},
             legend: 'none',
+            chartArea:{top:20,},
+
             seriesType: 'scatter',
            // trendlines: { 0: {} }    // Draw a trendline for data series 0.
           };
-
-
-
-            // Instantiate and draw our chart, passing in some options.
-
 
             var chart2 = new google.visualization.ScatterChart(document.getElementById('chart_div2'));
             chart2.draw(data2, options);
@@ -82,12 +81,15 @@
 
       </center>
 
-    <!--Divs that will hold the charts-->
-      <center> <div id="chart_div2" style="width: 1600px; height: 600px;"></div></center>
-      <center><b>{{series}}</b></center>
+    <!--Div that will hold the chart-->
+    <br>
+    <center><b>{{series}}</b></center>
+      <center> <div id="chart_div2" style="width: 1600px; height: 600px;"> </div></center>
+
 
 
   </body>
   <title>ScatterTV - {{series}}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 </html>
