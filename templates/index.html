@@ -17,7 +17,9 @@
         color: white;
         font-size: 30px;
       }
-
+          #chart {
+      width: 1500px; 
+    }
       /* Page Content */
       .content {padding:10px;}
       
@@ -66,16 +68,19 @@
             vAxis: {title: 'Rating', minValue: minRatingFinal , maxValue: 10},
             legend: 'none',
             chartArea:{top:20,},
+            height: 600,
 
             seriesType: 'scatter',
            // trendlines: { 0: {} }    // Draw a trendline for data series 0.
           };
-
+          
             var chart2 = new google.visualization.ScatterChart(document.getElementById('chart_div2'));
             chart2.draw(data2, options);
 
 
         }
+        window.addEventListener('resize', drawChart, false);
+
 
       </script>
 
@@ -84,7 +89,7 @@
     <!--Div that will hold the chart-->
     <br>
     <center><b>{{series}}</b></center>
-      <center> <div id="chart_div2" style="width: 1600px; height: 600px;"> </div></center>
+      <center> <div id="chart_div2"> </div></center>
 
 
 
