@@ -31,11 +31,23 @@
     
 <br>
 <h3><center>Search for a Show Below:</h3></center>
-<center><form method="POST">
+
+<center>
+  
+<form method="POST">
+    <div class="body">
     <input name="text" value="{{processed_text}}">
+    </div>
+    
     <br><br>
-    <input type="Submit" id = "Search" value="Search"></center>
-    <center><input type="Submit" id = "Change" value="Change Graph Colors"></center>
+
+    <div class="body">
+    <input type="Submit" name = "Submit" id = "Search" value="Search"></center>
+    </div>
+
+    <div class="body">
+    <center><input type="Submit" name= "Change Graph" id = "Change" value="Change Graph Colors"></center>
+    </div>
 </form>
 
 
@@ -45,14 +57,14 @@
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
       <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
       <script>
-        google.charts.load('current', {'packages':['corechart']});
+                google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawChart);
 
         var dataPoint = {{ dataPoint | tojson }};
         var finalEpNum = parseInt({{finalEpNum}});
         var minRatingFinal = {{minRatingFinal}}
 
-      function drawChart() {
+        function drawChart() {
 
           var data2 = google.visualization.arrayToDataTable([
               ['Episode', 'Rating', { role: 'style', type: 'string' }],
@@ -64,8 +76,8 @@
 
           var options = {
 
-            hAxis: {title: 'Episode', minValue: 1, maxValue: finalEpNum},
-            vAxis: {title: 'Rating', minValue: minRatingFinal , maxValue: 10},
+            hAxis: {title: 'Episode',viewWindow:{ minValue: 1, maxValue: finalEpNum}},
+            vAxis: {title: 'Rating', viewWindow:{minValue: minRatingFinal , maxValue: 10}},
             legend: 'none',
             chartArea:{top:20,},
             height: 600,
@@ -80,6 +92,7 @@
 
         }
         window.addEventListener('resize', drawChart, false);
+
 
 
       </script>
