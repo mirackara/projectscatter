@@ -118,21 +118,23 @@ def my_form_post():
 
     #The users search results from HTML Page
     searchText = request.form['text']
+
+    #If Change Graph is pressed
     if 'Change Graph' in request.form:
-        print('Change Graph')
         return(generateSearch(searchText))
 
+    #If Submit is pressed
     if 'Submit' in request.form:
-        print('Submit')
+        
         return(searchShow(searchText))
-
-    print(searchText)
-
+    
     #If user searches for an empty field, the page will default to grabbing The Flash data
     if (searchText ==''):
-
         template = render_template('index.html',series = Show.getName(),finalEpNum = lastEp,minRatingFinal = ScaledYAxis , dataPoint = ShowDataPoint)
         return template
+    
+    print(searchText)
+
     
 
     
