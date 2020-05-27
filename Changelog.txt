@@ -1,0 +1,8 @@
+V0.1.0
+*Added Changelog.txt
+*Added TopShowData.csv
+*Minor Bug Fixes to index.html and GenerateShowData.py
+    -Fixed a bug where some search results did not show up
+    -Improved speed of search
+*Implimented Pandas csv manipulation to flask.py
+    -Checks to see if show data exists in TopShowData.csv, and instead of calling imdbPY every single time it now checks it against the .csv file.
