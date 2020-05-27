@@ -44,13 +44,19 @@ class GetShowData:
        #Returns Total Episodes and Ratings numbered in list.
     def listSeriesData(self):
         seriesName = GetShowData.getName(self)
-        tvShow.update(seriesName, 'episodes')
-        totalSeasons = len(sorted(seriesName['episodes'].keys())) + 1
         seriesDataList = []
+        tvShow.update(seriesName, 'episodes')
+        try:
+            totalSeasons = len(sorted(seriesName['episodes'].keys())) + 1
+        except:
+            return seriesDataList
         episodeCounter = 0
         ### Loops thru 'i' amount of Seasons.
         for i in range(1,totalSeasons):
-          Season = seriesName['episodes'][i]
+          try:
+            Season = seriesName['episodes'][i]
+          except:
+              return seriesDataList
           ColorPicked = GetShowData.seasonColorPicker(self)
          ##Episode
           epNum = GetShowData.seriesDataGrabber(self,Season)[1]
@@ -64,5 +70,5 @@ class GetShowData:
             episodeCounter+=1
             ratingFloat = float(SeasonRatings[i-1])
             ratingFloat = round(ratingFloat, 2)
-            seriesDataList.append([episodeCounter, ratingFloat ,str(ColorPicked)])
+            seriesDataList.append([episodeCounter, ratingFloat , ColorPicked])
         return  seriesDataList
