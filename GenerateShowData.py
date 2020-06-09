@@ -1,6 +1,8 @@
 from imdb import IMDb
 import random
-
+import csv
+import urllib.request
+from bs4 import BeautifulSoup
 
 
 # Create an instance of the IMDb class
@@ -17,6 +19,42 @@ class GetShowData:
     def getName(self):
         getName = tvShow.get_movie(self.ID)
         return getName
+       #Gets Show Poster
+
+    def getPoster(self):
+        try:
+            with urllib.request.urlopen('https://www.imdb.com/title/'+str(self.ID)+'/?ref_=fn_al_tt_1') as response:
+                html = response.read()
+                soup = BeautifulSoup(html, 'html.parser')
+                # Get url of poster image
+                image_url = soup.find('div', class_='poster').a.img['src']
+                # TODO: Replace hardcoded extension with extension from string itself
+                extension = '.jpg'
+                image_url = ''.join(image_url.partition('_')[0]) + extension
+                filename = 'static/showPoster/showPoster' +str(self.ID)+'.jpg'
+                with urllib.request.urlopen(image_url) as response:
+                    with open(filename, 'wb') as out_image:
+                        out_image.write(response.read())
+                            
+                # Ignore cases where no poster image is present
+        except:
+            with urllib.request.urlopen('https://www.imdb.com/title/tt0'+str(self.ID)+'/?ref_=fn_al_tt_1') as response:
+                html = response.read()
+                soup = BeautifulSoup(html, 'html.parser')
+            # Get url of poster image
+                image_url = soup.find('div', class_='poster').a.img['src']
+                # TODO: Replace hardcoded extension with extension from string itself
+                extension = '.jpg'
+                image_url = ''.join(image_url.partition('_')[0]) + extension
+
+                filename = 'static/showPoster/showPoster' +str(self.ID)+'.jpg'
+
+                with urllib.request.urlopen(image_url) as response:
+                    with open(filename, 'wb') as out_image:
+                        out_image.write(response.read())
+        print('Done with Poster!')
+        
+
 
        #Returns Both Episode Data and Rating Data
     def seriesDataGrabber(self,Season):
