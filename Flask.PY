@@ -7,17 +7,25 @@ import csv
 import pandas as pd
 import re
 import ast 
+import urllib.request
+import os
+import base64
+
+
 
 def getStats(ShowDataPoint):
-    lastEp = ShowDataPoint[-1][0]
-    Y = []
-    #Gets all Y's into a list
-    for i in range (0,lastEp):
-        Y.append(ShowDataPoint[i][1])
-        averageYRating = sum(Y) / len(Y)
-        averageYRating = round(averageYRating,2)
-        ScaledYAxis = averageYRating - 3
-        ScaledYAxis = round(ScaledYAxis, 2)
+    try:
+        lastEp = ShowDataPoint[-1][0]
+        Y = []
+        #Gets all Y's into a list
+        for i in range (0,lastEp):
+            Y.append(ShowDataPoint[i][1])
+            averageYRating = sum(Y) / len(Y)
+            averageYRating = round(averageYRating,2)
+            ScaledYAxis = averageYRating - 3
+            ScaledYAxis = round(ScaledYAxis, 2)
+    except:
+        return ScaledYAxis, lastEp
     return ScaledYAxis, lastEp
 
 
@@ -25,6 +33,13 @@ def getStats(ShowDataPoint):
 Show = GetShowData('3107288')
 ShowDataPoint = Show.listSeriesData()
 ScaledYAxis, lastEp = getStats(ShowDataPoint)
+
+def searchSite():
+        #If user searches for an empty field, the page will default to grabbing The Flash data
+        showPoster = os.path.join(app.config['UPLOAD_FOLDER'], 'showPoster3107288.jpg')
+        template = render_template('index.html',series = Show.getName(),finalEpNum = lastEp,minRatingFinal = ScaledYAxis , dataPoint = ShowDataPoint,showPoster = showPoster)
+        return template
+
 
 def searchShow(searchText):
     tvShow = IMDb()
@@ -37,6 +52,7 @@ def searchShow(searchText):
     showIDNum = str(showIDNum)
     showIDNum = showIDNum[11:]
     showIDNum = int(showIDNum.split("[")[0])
+    ShowPoster = GetShowData(str(showIDNum))
 
     #Clone showID 
     showID = showIDNum
@@ -64,7 +80,11 @@ def searchShow(searchText):
         showID = showID[0]
         lastEp = int(lastEp[0])
         showData = ast.literal_eval(showData) 
-        template = render_template('index.html',processed_text = searchText, series = showName,finalEpNum = lastEp,minRatingFinal = ScaledYAxis , dataPoint = showData)
+        ShowPoster.getPoster()
+
+        showPoster = os.path.join(app.config['UPLOAD_FOLDER'], 'showPoster'+str(showIDNum)+'.jpg')
+
+        template = render_template('index.html',processed_text = searchText, series = showName,finalEpNum = lastEp,minRatingFinal = ScaledYAxis , dataPoint = showData,showPoster = showPoster)
         return template , searchText
     else:
         print('Need to add!')
@@ -73,6 +93,7 @@ def searchShow(searchText):
         print('Show ID:')
         print(showIDNum)
         Show = GetShowData(showIDNum)
+        GetShowData(showIDNum).getPoster()
         DataPoint = Show.listSeriesData()
         ScaledYAxis, lastEp = getStats(DataPoint)
         strData = str(DataPoint)
@@ -82,9 +103,9 @@ def searchShow(searchText):
         df.index = df.index + 1  # shifting index
         df = df.sort_index() 
         df.to_csv('TopShowData.csv' , index=False)
-
-            
-        template = render_template('index.html',processed_text = searchText, series = Show.getName(),finalEpNum = lastEp,minRatingFinal = ScaledYAxis , dataPoint = DataPoint)
+        showPoster = os.path.join(app.config['UPLOAD_FOLDER'], 'showPoster'+str(showIDNum)+'.jpg')
+        
+        template = render_template('index.html',processed_text = searchText, series = Show.getName(),finalEpNum = lastEp,minRatingFinal = ScaledYAxis , dataPoint = DataPoint, showPoster= showPoster)
         return template , searchText
 
 def generateSearch(searchText):
@@ -95,25 +116,34 @@ def generateSearch(searchText):
         showIDNum = showIDNum[11:]
         showIDNum = int(showIDNum.split("[")[0])
 
+        GetShowData(showIDNum).getPoster()
 
         Show = GetShowData(showIDNum)
         DataPoint = Show.listSeriesData()
         ScaledYAxis, lastEp = getStats(DataPoint)
 
-        template = render_template('index.html',processed_text = searchText, series = Show.getName(),finalEpNum = lastEp,minRatingFinal = ScaledYAxis , dataPoint = DataPoint)
+        showPoster = os.path.join(app.config['UPLOAD_FOLDER'], 'showPoster'+str(showIDNum)+'.jpg')
+        template = render_template('index.html',processed_text = searchText, series = Show.getName(),finalEpNum = lastEp,minRatingFinal = ScaledYAxis , dataPoint = DataPoint, showPoster = showPoster)
         return template , searchText
 
 
 app = Flask(__name__)
+showPosterFolder = os.path.join('static', 'showPoster')
+app.config['UPLOAD_FOLDER'] = showPosterFolder
+
 @app.route('/')
+
 def index():
     #Index Page that graphs The Flash Data from above
-    template = render_template('index.html',series = Show.getName(),finalEpNum = lastEp,minRatingFinal = ScaledYAxis , dataPoint = ShowDataPoint)
+    showPoster = os.path.join(app.config['UPLOAD_FOLDER'], 'showPoster.jpg')
+    template = render_template('index.html',series = Show.getName(),finalEpNum = lastEp,minRatingFinal = ScaledYAxis , dataPoint = ShowDataPoint,showPoster = showPoster)
     return template
+
 
 
 #When the user searches for a certain TV Show...
 @app.route('/', methods=["GET", "POST"])
+
 def my_form_post():
 
     #The users search results from HTML Page
@@ -121,18 +151,26 @@ def my_form_post():
 
     #If Change Graph is pressed
     if 'Change Graph' in request.form:
+        #If user searches for an empty field, the page will default to grabbing The Flash data
+        if (searchText ==''):
+            return searchSite()
         return(generateSearch(searchText))
 
-    #If Submit is pressed
+    #If Submit is pressed /static/showPoster
     if 'Submit' in request.form:
-        
+        if (searchText ==''):
+            return searchSite()
+
+
         return(searchShow(searchText))
     
-    #If user searches for an empty field, the page will default to grabbing The Flash data
-    if (searchText ==''):
-        template = render_template('index.html',series = Show.getName(),finalEpNum = lastEp,minRatingFinal = ScaledYAxis , dataPoint = ShowDataPoint)
-        return template
-    
+    if 'Home' in request.form:
+        templateHome = render_template('home.html')
+        return templateHome
+        
+    if 'SearchTab' in request.form:
+        return searchSite()
+
     print(searchText)
 
     
