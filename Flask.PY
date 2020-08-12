@@ -80,11 +80,11 @@ def searchShow(searchText):
         showID = showID[0]
         lastEp = int(lastEp[0])
         showData = ast.literal_eval(showData) 
-        ShowPoster.getPoster()
+        # ShowPoster.getPoster()
 
-        showPoster = os.path.join(app.config['UPLOAD_FOLDER'], 'showPoster'+str(showIDNum)+'.jpg')
+        # showPoster = os.path.join(app.config['UPLOAD_FOLDER'], 'showPoster'+str(showIDNum)+'.jpg')
 
-        template = render_template('index.html',processed_text = searchText, series = showName,finalEpNum = lastEp,minRatingFinal = ScaledYAxis , dataPoint = showData,showPoster = showPoster)
+        template = render_template('index.html',processed_text = searchText, series = showName,finalEpNum = lastEp,minRatingFinal = ScaledYAxis , dataPoint = showData)
         return template , searchText
     else:
         print('Need to add!')
