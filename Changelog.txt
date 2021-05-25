@@ -1,3 +1,12 @@
+V0.3.0
+*Removed imdbPY
+*Changed graphing from Google Charts to a more supported CanvasJS
+*Added show data straight from IMDb's website
+*Dramatically reduced show look up times 
+*Added scale button
+
+
+
 V0.2.0
 *Added Support for Posters
 *Added Home Page
