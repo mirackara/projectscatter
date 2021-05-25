@@ -1,73 +1,43 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+  <head>
+    <title> Home </title>
+    <meta charset="UTF-8">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/bootstrap.min.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/main.css') }}">
 
-
-    <style>
-      /* Style the body */
-      body {
-        font-family: Arial;
-        margin: 0;
-      }
-
-      /* Header/Logo Title */
-      .header {
-        padding: 20px;
-        text-align: center;
-        background: #181818;
-        color: white;
-        font-size: 30px;
-      }
-          #chart {
-      width: 1500px; 
-    }
-    img {
-  width: 615px;
-  padding-left: 215px;
-  max-width: 100%;
-  height: 600px;
-  width: auto\9; /* ie8 */
-
-
-}
-      /* Page Content */
-      .content {padding:10px;}
-      
-    </style>
-
-    <div class="header">
-      <center><h1 class="title">ScatterTV</h1></center>
+  </head>
+  <body>
+    <h1 style = "color: white;" onclick="location.href='https://www.scattertv.com';">ScatterTV</h1>
+    <div class = "container">
+      <center><input type = "text" name = "searchBar" id = "searchBar" placeholder="search for a show"/>
+      <input id="clickMe" type="button" value= "search" onclick = "search();"/></center>
+      <div id="chartContainer" style="height: 600px; max-width: 1200px; margin: 0px auto;"></div>
+      <script type="text/javascript" src = "{{ url_for('static',filename= 'js/canvasjs.min.js') }}"></script>
+      <p id="showNameID"></p>
+      <p id="seasonsInShow"></p>
+      <input hidden type="checkbox" id="yAxisScale" name="yAxisScale" value="scaled" onclick="checkBox(); ">
+      <label for="yAxisScale" class="btn btn-primary"> Scale</label><br>
+      <h2 style = "color: white;"> Best Episode: </h2>
+      <h2 id = "bestEp"></h2>
     </div>
-    
-<br>
-<h3><center>Search for a Show Below:</h3></center>
+    <script>
+      //  to use python variables in js file
+      var showName = ' {{ showData.keys() }} '; // Show name as a dict_key value
+      var showData = JSON.parse('{{showData | tojson}}');
+      var statusCode = ' {{ statusCode }} '; 
+      var seasons = ' {{ seasons }} ';
+      var spliced;
+      var chart;
+      var chartData;
+    </script>
+    <script type="text/javascript" src = "{{ url_for('static',filename= 'js/redirect.js') }}"></script>
 
-<center>
-
-<form method="POST">
-    <div class ="btn-group">
-
-        <button name="Home"> Home </button>
-        <button name="SearchTab"> Search </button>
-        
-        </div>
-    <div class="body">
-    <input name="text" value="{{processed_text}}">
+  </body>
+  <footer class="fixed-bottom">
+    <div class="text-left p-3" style="background-color:white ">
+      <a class="text-dark" href="https://mdbootstrap.com/">GitHub</a>
     </div>
-    
-    <br><br>
-
-    <div class="body">
-    <input type="Submit"  name = "Submit" id = "Search" value="Search"></center>
-    </div>
-
-    <div class="body">
-    <center><input type="Submit" name= "Change Graph" id = "Change" value="Change Graph Colors"></center>
-    </div>
-</form>
-
-
-  
-  <title>ScatterTV - {{series}}</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-</html>
+    <!-- Copyright -->
+  </footer>
+  </html>
