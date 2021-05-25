@@ -21,7 +21,7 @@ class showInfo(Resource): # Resource Class that handles GET/PUT/POST Requests
             return make_response(render_template('home.html',statusCode = statusCode, showData = {}, seasons = 0),200,headers)
     
     def put(self,showName):
-        print(request.form['Schitt\'s Creek'])
+        print(request.form['Schitt\'s Creek']) 
         return {}
     
 
