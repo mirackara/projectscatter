@@ -1,3 +1,7 @@
+V0.3.1
+*Added worst and best episode ratings to searching
+
+
 V0.3.0
 *Removed imdbPY
 *Changed graphing from Google Charts to a more supported CanvasJS
