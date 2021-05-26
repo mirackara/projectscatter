@@ -1,3 +1,7 @@
+V0.3.2
+*Fixed homepage not loading
+
+
 V0.3.1
 *Added worst and best episode ratings to searching
 
