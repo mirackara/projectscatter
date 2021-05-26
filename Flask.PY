@@ -36,9 +36,13 @@ api.add_resource(showInfo, "/search/<string:showName>")
 @app.route('/')
 def index():
     seasons = 0
-    showData, seasons= getShowData("Schitt's Creek",seasons)
+    bestEpName = ""
+    worstEpName = ""
+    bestEpRating = 0.0
+    worstEpRating = 0.0
+    showData, seasons , bestEpName , bestEpRating, worstEpName, worstEpRating = getShowData("Schitt's Creek",seasons)
     statusCode = 200
-    return render_template('home.html', statusCode = statusCode, showData = showData, seasons = seasons)
+    return render_template('home.html', statusCode = statusCode, showData = showData, seasons = seasons , bestEpName = bestEpName, bestEpRating = bestEpRating, worstEpName = worstEpName, worstEpRating = worstEpRating)
 
 
 @app.route('/search')
