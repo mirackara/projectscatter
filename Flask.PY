@@ -6,16 +6,23 @@ app = Flask(__name__)
 api = Api(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///showDatabase.db'
 
+
+
 class showInfo(Resource): # Resource Class that handles GET/PUT/POST Requests
     def get(self,showName):
         statusCode = 0
         try: # Show Found!
             seasons = 0
-            showData, seasons= getShowData(showName,seasons)
+            bestEpName = ""
+            worstEpName = ""
+            bestEpRating = 0.0
+            worstEpRating = 0.0
+            showData, seasons, bestEpName , bestEpRating, worstEpName, worstEpRating = getShowData(showName,seasons)
             statusCode = 200
             headers = {'Content-Type': 'text/html'}
-            return make_response(render_template('home.html', statusCode = statusCode, showData = showData, seasons = seasons),200,headers)
+            return make_response(render_template('home.html', statusCode = statusCode, showData = showData, seasons = seasons, bestEpName = bestEpName, bestEpRating = bestEpRating, worstEpName = worstEpName, worstEpRating = worstEpRating),200,headers)
         except: # Show not found..
+            print("error")
             headers = {'Content-Type': 'text/html'}
             statusCode = 404
             return make_response(render_template('home.html',statusCode = statusCode, showData = {}, seasons = 0),200,headers)

@@ -5,20 +5,35 @@
     <meta charset="UTF-8">
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/bootstrap.min.css') }}">
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/main.css') }}">
-
+    <style>
+          .btn-primary,  .btn-primary:visited {
+           background-color: #2a3942 !important;
+           border-color:white
+          }
+          .btn-primary:hover, .btn-primary:active {
+            background-color: #2a3942 !important;
+            border-color: black
+          }
+    </style>
   </head>
-  <body>
-    <h1 style = "color: white;" onclick="location.href='https://www.scattertv.com';">ScatterTV</h1>
+  <body style = "background-color: #32373a ;">
+    <h1><a style = "color: white;" onclick="location.href='https://www.scattertv.com';">ScatterTV</a></h1>
     <div class = "container">
-      <center><input type = "text" name = "searchBar" id = "searchBar" placeholder="search for a show"/>
-      <input id="clickMe" type="button" value= "search" onclick = "search();"/></center>
+      <center><input type="search" name = "searchBar" id = "searchBar"  class="form-control-small rounded" placeholder="search for a show" style = "border-color:#2a3942;"/>
+      <input id="clickMe" type="button" value= "search" onclick = "search();" class="btn btn-primary"/></center> <br>
       <div id="chartContainer" style="height: 600px; max-width: 1200px; margin: 0px auto;"></div>
       <script type="text/javascript" src = "{{ url_for('static',filename= 'js/canvasjs.min.js') }}"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      
       <p id="showNameID"></p>
       <p id="seasonsInShow"></p>
-      <input hidden type="checkbox" id="yAxisScale" name="yAxisScale" value="scaled" onclick="checkBox(); ">
-      <label for="yAxisScale" class="btn btn-primary"> Scale</label><br>
-      <h2 style = "color: white;"> Best Episode: </h2>
+
+      <input hidden type="checkbox" id="yAxisScale" name="yAxisScale" value="Scale" onclick="checkBox();" class = "checkBoxSwitch">
+      <input type="button"  id = "checkBtn" class="btn btn-primary" value="Scale" onclick="buttonChecked();"><br>
+
+      <h2 style = "color: white;"> Best Episode: {{ bestEpName }} - {{ bestEpRating }} </h2> 
+      <h2 style = "color: white;"> Worst Episode: {{ worstEpName }} - {{ worstEpRating }} </h2> 
+
       <h2 id = "bestEp"></h2>
     </div>
     <script>
@@ -35,9 +50,10 @@
 
   </body>
   <footer class="fixed-bottom">
-    <div class="text-left p-3" style="background-color:white ">
-      <a class="text-dark" href="https://github.com/mirackara/projectscatter">GitHub</a>
+    <div class="text-left p-3" style="background-color:#2a3942">
+      <a class="text-white" href="https://github.com/mirackara/projectscatter">GitHub</a>
     </div>
+
     <!-- Copyright -->
   </footer>
   </html>

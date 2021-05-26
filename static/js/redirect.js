@@ -84,17 +84,26 @@ function printData() {
   }
   return chartData;
 }
+
 function checkBox() {
   var checkBox = document.getElementById("yAxisScale");
       if (checkBox.checked == true){
-    console.log("Check True!");
-    loadChartData(true);
+          console.log("Check True!");
+          loadChartData(true);
     } else {
     console.log("Check False!");
     loadChartData(false);
+
   }
 }
-
+function buttonChecked() {
+    $(function() {
+      $('#checkBtn').click(function() {
+          $(':checkbox').prop('checked', !$(':checkbox').prop('checked'));
+      });
+  });
+  checkBox();
+}
 function toggleDataSeries(e) {
   if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible ){
     e.dataSeries.visible = false;

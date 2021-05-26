@@ -1,4 +1,5 @@
 import csv
+from os import getenv
 import sys
 
 def searchSubstring(showName):
@@ -44,8 +45,21 @@ def getShowData(showName, seasons):
     seasons = showInfo[-1][2]
     print(showInfo[-1][2])
     print("Episodes: ")
-    print(len(showInfo))
-
+    bestEp = []
+    for i in range(0,len(showInfo)):
+        bestEp.append(float(showInfo[i][4]))
+    highestRating = max(bestEp)
+    lowestRating = min(bestEp)
+    index = bestEp.index(highestRating)
+    lowestIndex = bestEp.index(lowestRating)
+    print("Best episode: ")
+    print(showInfo[index][5])
+    print("Worst Episode: ")
+    print(showInfo[lowestIndex][5])
+    worstEpName = showInfo[lowestIndex][5]
+    bestEpName = str(showInfo[index][5])
+    bestEpRating = highestRating
+    worstEpRating = lowestRating
     cleanedList = []
     tempDict = {}
     for item in showInfo:
@@ -62,7 +76,7 @@ def getShowData(showName, seasons):
     dictToReturn = {}
     dictToReturn[showInfo[1][1]] = cleanedList
     dictToReturn = {k: v for k, v in dictToReturn.items() if v is not None} # Deletes any empty values
-    return dictToReturn , seasons
+    return dictToReturn , seasons, bestEpName, bestEpRating, worstEpName, worstEpRating
 
 
 
