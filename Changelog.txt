@@ -1,3 +1,6 @@
+V0.3.3
+*Removed unused css/js files
+
 V0.3.2
 *Fixed homepage not loading
 
