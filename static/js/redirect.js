@@ -70,11 +70,12 @@ function printData() {
     tempData.yValueFormatString = "##.0";
     tempData.name = seasonName;
     tempData.dataPoints = [];
-    for (j = 1; j < currSeason[seasonName].length; ++j){
+    for (j = 0; j < currSeason[seasonName].length; ++j){
       var epData = [];
+      var epNum = j + 1
 //      console.log(currSeason[seasonName][j][0]); // Ep Name
 //      console.log(currSeason[seasonName][j][1]); // Ep Rating
-      tempData.dataPoints.push({name: currSeason[seasonName][j][0] ,  label: "Ep. " + j + " Season " + [i], x:testCounter , y: parseFloat(currSeason[seasonName][j][1]), fill : false});
+      tempData.dataPoints.push({name: currSeason[seasonName][j][0] ,  label: "Ep. " + epNum + " Season " + [i], x:testCounter , y: parseFloat(currSeason[seasonName][j][1]), fill : false});
       tempData.showLine = "true";
       testCounter++;
     }
