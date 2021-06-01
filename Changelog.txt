@@ -1,5 +1,16 @@
+V0.3.4
+*Added UpdateShowData.py
+    - When ran, the show dataset will be updated with all recent shows and episodes from imdb
+*Deleted temporary csv files
+*Removed excessive code from sendShowData.py
+*Added better documentation in sendShowData.py
+*Fixed a typo in redirect.js that made the first episode of a season not be shown
+
+
+
 V0.3.3
 *Removed unused css/js files
+
 
 V0.3.2
 *Fixed homepage not loading
@@ -17,14 +28,11 @@ V0.3.0
 *Added scale button
 
 
-
 V0.2.0
 *Added Support for Posters
 *Added Home Page
 
  
-
-
 V0.1.0
 *Added Changelog.txt
 *Added TopShowData.csv
