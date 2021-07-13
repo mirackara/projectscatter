@@ -1,3 +1,8 @@
+V0.3.5
+*Minor tweaks to support Microsoft Azure deployment
+*Updated Requirements.txt
+
+
 V0.3.4
 *Added UpdateShowData.py
     - When ran, the show dataset will be updated with all recent shows and episodes from imdb
@@ -5,7 +10,6 @@ V0.3.4
 *Removed excessive code from sendShowData.py
 *Added better documentation in sendShowData.py
 *Fixed a typo in redirect.js that made the first episode of a season not be shown
-
 
 
 V0.3.3
