@@ -31,7 +31,7 @@ class showInfo(Resource): # Resource Class that handles GET/PUT/POST Requests
         print(request.form['Schitt\'s Creek']) 
         return {}
     
-
+ 
 api.add_resource(showInfo, "/search/<string:showName>")
 @app.route('/')
 def index():
