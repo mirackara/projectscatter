@@ -14,11 +14,11 @@ def searchSubstring(showData, showName):
 
 
 def getShowData(showName, seasons):
-    fileHandler = open('showdata.csv', "r")
+    fileHandler = open('showdata.csv', "r", encoding= "ISO-8859-1")
     showData = csv.reader(fileHandler,delimiter = ",") #  IMDb Data
 
     showInfo = []
-    for row in showData: # Search for EXACT match 
+    for row in showData: # Search for EmXACT match
         if showName == row[1] or showName.lower() == row[1].lower():
             showInfo.append(row)
 
@@ -35,17 +35,17 @@ def getShowData(showName, seasons):
     fileHandler.seek(1)
 
     if trySubstringSearch:
-        showInfo = searchSubstring(showInfo,showInfo[1][1]) # Search data once more with the best guess show name 
+        showInfo = searchSubstring(showInfo,showInfo[1][1]) # Search data once more with the best guess show name
 
     showInfo = sorted(showInfo, key = lambda x: (int(x[2]), int(x[3]))) # Sort show based on season and episode
     print("Show Name: ")
     print(showInfo[1][1])
-    
+
     seasons = showInfo[-1][2]
     bestEp = []
 
     for i in range(0,len(showInfo)):
-        bestEp.append(float(showInfo[i][4])) # Pulling all episode ratings 
+        bestEp.append(float(showInfo[i][4])) # Pulling all episode ratings
 
     bestEpRating = max(bestEp)
     worstEpRating = min(bestEp)
@@ -67,7 +67,7 @@ def getShowData(showName, seasons):
             tempDict[seasonName] = [] # Reinitialize tempDict
         if seasonName in tempDict:
 
-            tempList = [item[5],item[4]] # Adds Episode name, Rating to list 
+            tempList = [item[5],item[4]] # Adds Episode name, Rating to list
             print(item[5])
             tempDict[seasonName].append(tempList)
     cleanedList.append(dict(tempDict)) # Adds last season to dictionary
@@ -80,7 +80,7 @@ def getShowData(showName, seasons):
 
 
 
-#Typically, a triple nested for loop is extremely ineffective at O(N^3). However, since we know that a given show won't have a extremely high amount of episodes this is okay. 
+#Typically, a triple nested for loop is extremely ineffective at O(N^3). However, since we know that a given show won't have a extremely high amount of episodes this is okay.
 '''
 for item in listFinal:
     for season,episodeList in item.items():

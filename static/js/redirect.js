@@ -152,7 +152,7 @@ function search() {
     console.log("Empty!")
     document.getElementById("showNameID").innerHTML = "Please type a Show Name";
   } else { // Redirect to search
-    var redirect = "http://127.0.0.1:5000/search/"; 
+    var redirect = "https://www.scattertv.com/search/"; 
     var redirectURL = redirect.concat(showSearch);
     console.log(showSearch)
     location.replace(redirectURL);
