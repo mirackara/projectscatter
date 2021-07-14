@@ -38,8 +38,8 @@ def getShowData(showName, seasons):
         showInfo = searchSubstring(showInfo,showInfo[1][1]) # Search data once more with the best guess show name
 
     showInfo = sorted(showInfo, key = lambda x: (int(x[2]), int(x[3]))) # Sort show based on season and episode
-    print("Show Name: ")
-    print(showInfo[1][1])
+    # print("Show Name: ")
+    # print(showInfo[1][1])
 
     seasons = showInfo[-1][2]
     bestEp = []
@@ -68,13 +68,13 @@ def getShowData(showName, seasons):
         if seasonName in tempDict:
 
             tempList = [item[5],item[4]] # Adds Episode name, Rating to list
-            print(item[5])
+           # print(item[5])
             tempDict[seasonName].append(tempList)
     cleanedList.append(dict(tempDict)) # Adds last season to dictionary
 
     dictToReturn = {}
     dictToReturn[showInfo[1][1]] = cleanedList
-    print(dictToReturn)
+    # print(dictToReturn)
     dictToReturn = {k: v for k, v in dictToReturn.items() if v is not None} # Deletes any empty values
     return dictToReturn , seasons, bestEpName, bestEpRating, worstEpName, worstEpRating
 
