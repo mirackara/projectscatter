@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title> Home </title>
+    <meta charset="UTF-8">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/bootstrap.min.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/main.css') }}">
+    <style>
+          .btn-primary,  .btn-primary:visited {
+           background-color: #2a3942 !important;
+           border-color:white
+          }
+          .btn-primary:hover, .btn-primary:active {
+            background-color: #2a3942 !important;
+            border-color: black
+          }
+    </style>
+  </head>
+    <body>
+        <h1><a style = "color: white;" onclick="location.href='https://www.scattertv.com';">ScatterTV</a></h1>
+        <body style = "background-color: #32373a ;">
+        <div class = "container" id = "container">
+            <script type="text/javascript" src = "{{ url_for('static',filename= 'js/canvasjs.min.js') }}"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            
+        </div>
+    
+    </body>
+
+    <script>
+        //  to use python variables in js file
+        var showData = JSON.parse('{{test | tojson}}');
+        var numOfShows = {{numOfShows}};
+        var chart;
+        var chartData;
+
+    </script>
+    <script type="text/javascript" src = "{{ url_for('static',filename= 'js/multigraph.js') }}"></script>
+
+</html>
