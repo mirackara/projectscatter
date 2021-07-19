@@ -1,10 +1,23 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title> Home </title>
+    <title> Compare </title>
     <meta charset="UTF-8">
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/bootstrap.min.css') }}">
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/main.css') }}">
+    <script type="text/javascript" src = "{{ url_for('static',filename= 'js/jquery.min.js') }}"></script>
+    <script type="text/javascript" src = "{{ url_for('static',filename= 'js/canvasjs.min.js') }}"></script>
+    <script type="text/javascript" src = "{{ url_for('static',filename= 'js/bootstrap.min.js') }}"></script>
+    <script>
+        //  to use python variables in js file
+        var showData = JSON.parse('{{test | tojson}}');
+        var numOfShows = {{numOfShows}};
+        var chart;
+        var chartData;
+        var graphSize = 0;
+        var singleLayout = false;
+    </script>
+
     <style>
           .btn-primary,  .btn-primary:visited {
            background-color: #2a3942 !important;
@@ -15,26 +28,34 @@
             border-color: black
           }
     </style>
+
   </head>
     <body>
         <h1><a style = "color: white;" onclick="location.href='https://www.scattertv.com';">ScatterTV</a></h1>
+        <!-- Search Bar / Buttons -->
         <body style = "background-color: #32373a ;">
-        <div class = "container" id = "container">
-            <script type="text/javascript" src = "{{ url_for('static',filename= 'js/canvasjs.min.js') }}"></script>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-            
-        </div>
-    
+          <span class="border">
+            <center>
+              <input type="search" name = "searchBar" id = "searchBar"  class="form-control-small rounded" placeholder="search for a show" style = "border-color:#2a3942;"/>
+              <input id="clickMe" type="button" value= "compare" onclick = "searchCompare();" class="btn btn-primary"/>
+              <input id="clearMe" type="button" value= "clear all" onclick = "clearAll();" class="btn btn-primary"/>
+              <input id="listView" type="button" value= "list" onclick = "viewChange('list');" class="btn btn-primary"/>
+              <input id="gridView" type="button" value= "grid" onclick = "viewChange('grid');" class="btn btn-primary"/>
+            </center>
+            <br>
+          </span>
+          <!-- Graph Container -->
+          <div class="container">
+              <div class = "row" id = "container"></div>
+          </div>
     </body>
 
-    <script>
-        //  to use python variables in js file
-        var showData = JSON.parse('{{test | tojson}}');
-        var numOfShows = {{numOfShows}};
-        var chart;
-        var chartData;
+    <br><br><br>
 
-    </script>
     <script type="text/javascript" src = "{{ url_for('static',filename= 'js/multigraph.js') }}"></script>
-
+    <!-- Footer -->
+    <footer class="fixed-bottom">
+      <div class="text-left p-3" style="background-color:#2a3942">
+        <a class="text-white" href="https://github.com/mirackara/projectscatter">GitHub</a>
+      </div>
 </html>
