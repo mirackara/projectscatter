@@ -14,7 +14,7 @@ def searchSubstring(showData, showName):
     return showInfo
 
 
-def getShowData(showName, seasons):
+def getShowData(showName, seasons, isCompare):
     fileHandler = open('showdata.csv', "r", encoding="ISO-8859-1")
     showData = csv.reader(fileHandler, delimiter=",")  # IMDb Data
 
@@ -81,8 +81,12 @@ def getShowData(showName, seasons):
     # print(dictToReturn)
     # Deletes any empty values
     dictToReturn = {k: v for k, v in dictToReturn.items() if v is not None}
-    return dictToReturn, seasons, bestEpName, bestEpRating, worstEpName, worstEpRating
 
+    ##  For comparing graphs, we only need show data and seasons
+    if not isCompare:
+        return dictToReturn, seasons, bestEpName, bestEpRating, worstEpName, worstEpRating
+    else:
+        return dictToReturn, seasons
 
 # Typically, a triple nested for loop is extremely ineffective at O(N^3). However, since we know that a given show won't have a extremely high amount of episodes this is okay.
 '''
