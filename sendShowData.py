@@ -19,7 +19,7 @@ def getShowData(showName, seasons):
     showData = csv.reader(fileHandler, delimiter=",")  # IMDb Data
 
     showInfo = []
-    for row in showData:  # Search for EmXACT match
+    for row in showData:  # Search for EXACT match
         if showName == row[1] or showName.lower() == row[1].lower():
             showInfo.append(row)
 
