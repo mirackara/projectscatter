@@ -6,6 +6,11 @@ input.addEventListener("keyup", function(event) {
   document.getElementById("clickMe").click();
   }
 });
+
+
+
+//  EXPERIMENTAL : Trendlines
+
 function calculateTrendLine(chart){
   var a, b, c, d, e, slope, yIntercept;
   for (var i = 0; i <= seasons; ++i ){
@@ -146,11 +151,10 @@ function bestEpisode(data) {
   }
 }
 
-function search() {
-  var wantsCompare = document.getElementById("compare").checked;
-
+function search(wantsCompare) {
   if (wantsCompare) {
     localStorage['myKey'] = spliced + '+';
+    lastShowAdded = "true";
     searchCompare();
     return;
   }
