@@ -14,7 +14,7 @@
         //  to use python variables in js file
         var showName = ' {{ showData.keys() }} '; // Show name as a dict_key value
         var showData = JSON.parse('{{showData | tojson}}');
-        var statusCode = ' {{ statusCode }} '; 
+        var statusCode = ' {{ statusCode }} ';
         var seasons = ' {{ seasons }} ';
         var spliced;
         var chart;
@@ -38,10 +38,10 @@
       <span class="border">
         <center>
           <input type="search" name = "searchBar" id = "searchBar"  class="form-control-small rounded" placeholder="search for a show" style = "border-color:#2a3942;"/>
-          <input id="clickMe" type="button" value= "search" onclick = "search();" class="btn btn-primary"/>
-          <div class="btn btn-primary">
-          <input type="checkbox" id = "compare" autocomplete="on" placeholder="compare"/>
-          <label for="compare">compare</label>
+          <div class="btn-group" role="group">
+          <input id="clickMe" type="button" value= "search" onclick = 'search("False");'' class="btn btn-primary"/>
+          <input type="button" value = "compare"  placeholder="compare" class="btn btn-primary" onclick = 'search("True")';/>
+          </div>
           </div>
         </center>  
       </span>
