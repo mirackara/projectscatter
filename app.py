@@ -64,13 +64,13 @@ showNames = []
 
 class showInfoCompare(Resource):
     def get(self, showName):
-        statusCode = 0
+        showNames = showName.split('+')
+        while("" in showNames):
+            showNames.remove("")
+        print(showNames)
+
         try:  # Show Found!
             print(showName)
-            showNames = showName.split('+')
-            while("" in showNames):
-                showNames.remove("")
-            print(showNames)
 
             testList = []
             numOfShows = 0
@@ -80,12 +80,10 @@ class showInfoCompare(Resource):
                 showData, seasons = getShowData(show, seasons, True)
                 testList.append(deepcopy(showData))
 
-            return make_response(render_template('multigraph.html', test=testList, numOfShows=numOfShows))
+            return make_response(render_template('multigraph.html', test=testList, numOfShows=numOfShows, lastShowAdded = 'true'))
         except:  # Show not found..
             print("error")
-            headers = {'Content-Type': 'text/html'}
-            statusCode = 404
-            return make_response(render_template('home.html', statusCode=statusCode, showData={}, seasons=0), 200, headers)
+            return make_response(render_template('multigraph.html', test=testList, numOfShows=numOfShows, lastShowAdded = 'false'))
 
     def put(self, showName):
         print(request.form["Schitt's Creek"])
