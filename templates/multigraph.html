@@ -12,10 +12,12 @@
         //  to use python variables in js file
         var showData = JSON.parse('{{test | tojson}}');
         var numOfShows = {{numOfShows}};
+        var lastShowAdded = {{lastShowAdded}};
         var chart;
         var chartData;
         var graphSize = 0;
         var singleLayout = false;
+        var viewPref = "";
     </script>
 
     <style>
@@ -37,10 +39,12 @@
           <span class="border">
             <center>
               <input type="search" name = "searchBar" id = "searchBar"  class="form-control-small rounded" placeholder="search for a show" style = "border-color:#2a3942;"/>
+              <div class="btn-group" role="group">
               <input id="clickMe" type="button" value= "compare" onclick = "searchCompare();" class="btn btn-primary"/>
               <input id="clearMe" type="button" value= "clear all" onclick = "clearAll();" class="btn btn-primary"/>
-              <input id="listView" type="button" value= "list" onclick = "viewChange('list');" class="btn btn-primary"/>
-              <input id="gridView" type="button" value= "grid" onclick = "viewChange('grid');" class="btn btn-primary"/>
+              <input id="listView" type="button" value= "list" onclick = "viewChange('listView');" class="btn btn-primary"/>
+              <input id="gridView" type="button" value= "grid" onclick = "viewChange('gridView');" class="btn btn-primary"/>
+              </div>
             </center>
             <br>
           </span>
@@ -51,7 +55,6 @@
     </body>
 
     <br><br><br>
-
     <script type="text/javascript" src = "{{ url_for('static',filename= 'js/multigraph.js') }}"></script>
 
     <!-- Footer -->
