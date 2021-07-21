@@ -2,6 +2,14 @@ var graphList = [];
 var chartContainerList = [];
 
 
+window.onload = function checkView() {
+  console.log(localStorage['viewPref']);
+  if (localStorage['viewPref'] != ""){
+    viewChange(localStorage['viewPref']);
+  }
+}
+
+
 //  Handles if enter was clicked on search bar
 var input = document.getElementById("searchBar");
 input.addEventListener("keyup", function(event) {
@@ -13,13 +21,14 @@ input.addEventListener("keyup", function(event) {
 
 // Changes from List View/Grid View
 function viewChange(viewPreference) {
-  if(viewPreference == "list"){
+  if(viewPreference == "listView"){
     for(var i = 0; i < graphList.length; ++i){
       graphList[i].options.width = 1200;
       graphList[i].render();
       var currChartID = String(chartContainerList[i]);
       document.getElementById(currChartID).className = "col-md-12";
     }
+    localStorage['viewPref'] = "listView";
   }else{
     for(var i = 0; i < graphList.length; ++i){
       graphList[i].options.width = 600;
@@ -27,6 +36,8 @@ function viewChange(viewPreference) {
       var currChartID = String(chartContainerList[i]);
       document.getElementById(currChartID).className = "col-md-6";
     }
+    localStorage['viewPref'] = "gridView";
+
   }
 }
 
@@ -39,9 +50,17 @@ function searchCompare() {
     } else { // Redirect to search
       var myVar = localStorage['myKey'] || "";
       var tmpArr = myVar.split('+');
-      console.log(tmpArr);
 
-      localStorage['myKey'] = myVar + showSearch +  '+'; // only strings
+      if (!lastShowAdded){ // If the last show was not found, remove it from cookie
+        //  Find all occurances of '+' in myVar.
+        var indices = [];
+        for(var i=0; i<myVar.length;i++) {
+            if (myVar[i] === "+") indices.push(i);
+        }
+        var showToRemove = myVar.substring((indices[indices.length-1],indices[indices.length-2]));
+        myVar = myVar.replace(showToRemove, '+');
+      }
+      localStorage['myKey'] = myVar + showSearch +  '+'; // Store cookie of all searches thus far
     
       var redirect = "http://127.0.0.1:5000/compare/";
       var redirectURL = redirect.concat(myVar + showSearch +  '+');
@@ -66,7 +85,7 @@ function loadChart(chartName,currShowName, tempData){
     chart = new CanvasJS.Chart(chartName, {
         theme:"dark2",
         title: chartData.title,
-        width: 600,
+        width: 1200,
         axisY: chartData.axisY,
         axisX : chartData.axisX,
         animationEnabled: true,
@@ -91,7 +110,8 @@ function loadChart(chartName,currShowName, tempData){
 
 }
 function del(currChart){ // Remove show from list
-  console.log(graphSize);
+
+  // If theres only 1 graph left, clear screen
   if (graphSize == 1){
     graphSize = 0;
     clearAll();
@@ -104,11 +124,10 @@ function del(currChart){ // Remove show from list
 
   // tmpArr[itemToDelete] Show to delete
   tmpArr.splice(itemToDelete, 1);
-  if (tmpArr.length == 0){
+  if (tmpArr.length == 0){ // If there aren't any shows to clear, empty storage
     localStorage.clear();
-    console.log("Empty!")
   }
-  console.log(tmpArr);
+
   var cookieToPush;
   for (var i = 0; i < tmpArr.length; ++i){
     if (tmpArr[i] == undefined || tmpArr[i] == ""){
@@ -124,7 +143,7 @@ function del(currChart){ // Remove show from list
   if (cookieToPush == undefined){
     graphSize--;
     var deleteGraph = graphDiv + 'col';
-    document.getElementById(deleteGraph).style.display = "none";  
+    document.getElementById(deleteGraph).style.display = "none"; // Hides graph
     return;
   } else{
       var cleanedCookie = cookieToPush.replace('undefined','');
@@ -138,12 +157,12 @@ function del(currChart){ // Remove show from list
 }
 
 function clearAll(){
-// First, we empty cookie
-localStorage.clear();
+  // First, we empty cookie
+  localStorage.clear();
 
-// Next, we clear the URL
-var redirect = "http://127.0.0.1:5000/";
-location.replace(redirect);
+  // Next, we clear the URL
+  var redirect = "http://127.0.0.1:5000/";
+  location.replace(redirect);
 }
 
 
@@ -186,7 +205,7 @@ for (i = 0; i <= numOfShows; ++i) {
         dataToPush.data.push(fullShowData);
     }
     chartContainerList.push(currChart+"col");
-    $("#container").append('<div class = "col-md-6" id="' + currChart +  'col"><div id="' + currChart +  '" style="height: 600px; width: 100%;"></div> <input id='+ currChart + '-btn' + ' type="button" width = 100% value= "clear" onclick = "del('+ currChart + ');" class="btn btn-primary"/>');
+    $("#container").append('<div class = "col-md-12" id="' + currChart +  'col"><div id="' + currChart +  '" style="height: 600px; width: 100%;"></div> <input id='+ currChart + '-btn' + ' type="button" width = 100% value= "clear" onclick = "del('+ currChart + ');" class="btn btn-primary"/>');
     loadChart(currChart,currShowName, dataToPush);
 }
 
