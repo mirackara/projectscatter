@@ -1,3 +1,10 @@
+V0.4.0
+*Added multi-graph support
+*Changed UI Buttons
+*Removed excessive code from app.py
+*Added detailed comments to python files
+*Bug fixes
+
 V0.3.5
 *Minor tweaks to support Microsoft Azure deployment
 *Updated Requirements.txt
