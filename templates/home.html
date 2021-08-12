@@ -35,16 +35,17 @@
   <body style = "background-color: #32373a ;">
       <h1><a style = "color: white;" onclick="location.href='https://www.scattertv.com';">ScatterTV</a></h1>
       <!-- Search Bar / Buttons -->
-      <span class="border">
+      <span>
         <center>
           <input type="search" name = "searchBar" id = "searchBar"  class="form-control-small rounded" placeholder="search for a show" style = "border-color:#2a3942;"/>
           <div class="btn-group" role="group">
-          <input id="clickMe" type="button" value= "search" onclick = 'search("False");'' class="btn btn-primary"/>
-          <input type="button" value = "compare"  placeholder="compare" class="btn btn-primary" onclick = 'search("True")';/>
+          <input id="clickMe" type="button" value= "search" onclick = 'search("search");' class="btn btn-primary"/>
+          <input type="button" value = "compare"  placeholder="compare" class="btn btn-primary" onclick = 'search("compare");'/>
           </div>
           </div>
         </center>  
       </span>
+      <br>
       <!-- Graph Container -->
       <div class = "container">
         <div id="chartContainer" style="height: 600px; max-width: 1200px; margin: 0px auto;"></div>

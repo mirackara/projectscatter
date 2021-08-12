@@ -77,7 +77,7 @@ function loadChart(chartName,currShowName, tempData){
                                           return " ";
                                       },
                       };  
-    chartData.toolTip = {shared: "false"};
+    chartData.toolTip = true;
     chartData.visible = true;
     chartData.showInLegend = true;
     chartData.yValueFormatString = "##.0";
@@ -169,6 +169,9 @@ function clearAll(){
 for (i = 0; i <= numOfShows; ++i) {
     // Converting Raw Show Data from Python
     var currChart = "chartContainer" + i; // Create a new chartContainer for each show
+    if (showData[i] == undefined){
+      continue;
+    }
     var currShowData = Object.values(showData[i])[0]; // Seasons Data
     var currShowName = Object.keys(showData[i])[0];  // Show Name
     var dataToPush = new Object();
@@ -196,7 +199,7 @@ for (i = 0; i <= numOfShows; ++i) {
             var currEp = k + 1
             var EpName = seasonData[0][k][0];
             // FIX : Names not showing up in graph
-            fullShowData.dataPoints.push({name: EpName , label: "Ep. " + currEp + " Season " + j,  x: currEpGraph, y: parseFloat(seasonData[0][k][1]), fill : false }); 
+            fullShowData.dataPoints.push({legendText: EpName , label: "Ep. " + currEp + " Season " + j,  x: currEpGraph, y: parseFloat(seasonData[0][k][1]), fill : false }); 
             
           //  console.log(seasonData[0][k][0]);
             currEpGraph++;
@@ -207,6 +210,7 @@ for (i = 0; i <= numOfShows; ++i) {
     chartContainerList.push(currChart+"col");
     $("#container").append('<div class = "col-md-12" id="' + currChart +  'col"><div id="' + currChart +  '" style="height: 600px; width: 100%;"></div> <input id='+ currChart + '-btn' + ' type="button" width = 100% value= "clear" onclick = "del('+ currChart + ');" class="btn btn-primary"/>');
     loadChart(currChart,currShowName, dataToPush);
-}
+  }
+
 
 

@@ -152,7 +152,7 @@ function bestEpisode(data) {
 }
 
 function search(wantsCompare) {
-  if (wantsCompare) {
+  if (wantsCompare == "compare") {
     localStorage['myKey'] = spliced + '+';
     lastShowAdded = "true";
     searchCompare();
