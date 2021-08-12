@@ -1,0 +1,9 @@
+/env
+/.vscode
+/.vs
+/.azure
+/__pycache__
+.dockerignore
+/test.py
+/Dockerfile
+

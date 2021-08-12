@@ -5,6 +5,7 @@ import shutil
 import os
 from GenerateShowData import *
 
+
 def unzip(fileIn, fileOut):
     with gzip.open(fileIn, 'rb') as f_in:
         with open(fileOut, 'wb') as f_out:
