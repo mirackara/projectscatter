@@ -2,6 +2,7 @@ import csv
 from os import getenv
 import sys
 
+
 def searchSubstring(showData, showName):
 
     showInfo = []
@@ -13,21 +14,21 @@ def searchSubstring(showData, showName):
     return showInfo
 
 
-def getShowData(showName, seasons):
-    fileHandler = open('showdata.csv', "r", encoding= "ISO-8859-1")
-    showData = csv.reader(fileHandler,delimiter = ",") #  IMDb Data
+def getShowData(showName, seasons, isCompare):
+    fileHandler = open('showdata.csv', "r", encoding="ISO-8859-1")
+    showData = csv.reader(fileHandler, delimiter=",")  # IMDb Data
 
     showInfo = []
-    for row in showData: # Search for EmXACT match
+    for row in showData:  # Search for EXACT match
         if showName == row[1] or showName.lower() == row[1].lower():
             showInfo.append(row)
 
-    fileHandler.seek(1) # Return CSV to beginning
+    fileHandler.seek(1)  # Return CSV to beginning
     trySubstringSearch = False
 
-    if not showInfo: # If exact match could not be found...
+    if not showInfo:  # If exact match could not be found...
         trySubstringSearch = True
-        for row in showData: # try lowercase match
+        for row in showData:  # try lowercase match
             rowLower = row[1].lower()
             if showName.lower() in rowLower:
                 showInfo.append(row)
@@ -35,17 +36,19 @@ def getShowData(showName, seasons):
     fileHandler.seek(1)
 
     if trySubstringSearch:
-        showInfo = searchSubstring(showInfo,showInfo[1][1]) # Search data once more with the best guess show name
+        # Search data once more with the best guess show name
+        showInfo = searchSubstring(showInfo, showInfo[1][1])
 
-    showInfo = sorted(showInfo, key = lambda x: (int(x[2]), int(x[3]))) # Sort show based on season and episode
-    print("Show Name: ")
-    print(showInfo[1][1])
+    # Sort show based on season and episode
+    showInfo = sorted(showInfo, key=lambda x: (int(x[2]), int(x[3])))
+    # print("Show Name: ")
+    # print(showInfo[1][1])
 
     seasons = showInfo[-1][2]
     bestEp = []
 
-    for i in range(0,len(showInfo)):
-        bestEp.append(float(showInfo[i][4])) # Pulling all episode ratings
+    for i in range(0, len(showInfo)):
+        bestEp.append(float(showInfo[i][4]))  # Pulling all episode ratings
 
     bestEpRating = max(bestEp)
     worstEpRating = min(bestEp)
@@ -61,26 +64,31 @@ def getShowData(showName, seasons):
 
     for item in showInfo:
         seasonName = "Season " + item[2]
-        if seasonName not in tempDict: # Checks to see if season is not in dictionary
-            cleanedList.append(dict(tempDict)) # Adds previous season to dictionary
+        if seasonName not in tempDict:  # Checks to see if season is not in dictionary
+            # Adds previous season to dictionary
+            cleanedList.append(dict(tempDict))
             tempDict.clear()
-            tempDict[seasonName] = [] # Reinitialize tempDict
+            tempDict[seasonName] = []  # Reinitialize tempDict
         if seasonName in tempDict:
 
-            tempList = [item[5],item[4]] # Adds Episode name, Rating to list
-            print(item[5])
+            tempList = [item[5], item[4]]  # Adds Episode name, Rating to list
+           # print(item[5])
             tempDict[seasonName].append(tempList)
-    cleanedList.append(dict(tempDict)) # Adds last season to dictionary
+    cleanedList.append(dict(tempDict))  # Adds last season to dictionary
 
     dictToReturn = {}
     dictToReturn[showInfo[1][1]] = cleanedList
-    print(dictToReturn)
-    dictToReturn = {k: v for k, v in dictToReturn.items() if v is not None} # Deletes any empty values
-    return dictToReturn , seasons, bestEpName, bestEpRating, worstEpName, worstEpRating
+    # print(dictToReturn)
+    # Deletes any empty values
+    dictToReturn = {k: v for k, v in dictToReturn.items() if v is not None}
 
+    ##  For comparing graphs, we only need show data and seasons
+    if not isCompare:
+        return dictToReturn, seasons, bestEpName, bestEpRating, worstEpName, worstEpRating
+    else:
+        return dictToReturn, seasons
 
-
-#Typically, a triple nested for loop is extremely ineffective at O(N^3). However, since we know that a given show won't have a extremely high amount of episodes this is okay.
+# Typically, a triple nested for loop is extremely ineffective at O(N^3). However, since we know that a given show won't have a extremely high amount of episodes this is okay.
 '''
 for item in listFinal:
     for season,episodeList in item.items():

@@ -1,4 +1,3 @@
-
 //  Handles if enter was clicked on search bar
 var input = document.getElementById("searchBar");
 input.addEventListener("keyup", function(event) {
@@ -7,6 +6,11 @@ input.addEventListener("keyup", function(event) {
   document.getElementById("clickMe").click();
   }
 });
+
+
+
+//  EXPERIMENTAL : Trendlines
+
 function calculateTrendLine(chart){
   var a, b, c, d, e, slope, yIntercept;
   for (var i = 0; i <= seasons; ++i ){
@@ -86,9 +90,9 @@ function printData() {
   return chartData;
 }
 
-function checkBox() {
+function checkBoxScaler() {
   var checkBox = document.getElementById("yAxisScale");
-      if (checkBox.checked == true){
+      if (checkBox.checked){
           console.log("Check True!");
           loadChartData(true);
     } else {
@@ -108,6 +112,7 @@ function buttonChecked() {
 function toggleDataSeries(e) {
   if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible ){
     e.dataSeries.visible = false;
+    chart.render();
   } else {
     e.dataSeries.visible = true;
   }
@@ -146,13 +151,20 @@ function bestEpisode(data) {
   }
 }
 
-function search() {
+function search(wantsCompare) {
+  if (wantsCompare == "compare") {
+    localStorage['myKey'] = spliced + '+';
+    lastShowAdded = "true";
+    searchCompare();
+    return;
+  }
+
   var showSearch = document.getElementById('searchBar').value; // First element
   if (showSearch.length == 0){  // Empty Search Bar
     console.log("Empty!")
     document.getElementById("showNameID").innerHTML = "Please type a Show Name";
   } else { // Redirect to search
-    var redirect = "https://www.scattertv.com/search/"; 
+    var redirect = "http://127.0.0.1:5000/search/"; 
     var redirectURL = redirect.concat(showSearch);
     console.log(showSearch)
     location.replace(redirectURL);
@@ -175,7 +187,7 @@ window.onload = function checkFlaskStatus() {
 
 
     chart = loadChartData();
-   // calculateTrendLine(chart);
+    // calculateTrendLine(chart);
     chart.render();
     document.getElementById("bestEp").innerHTML = bestEpisode(chart.data);
 

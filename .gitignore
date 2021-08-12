@@ -4292,3 +4292,14 @@ env/Scripts/env/Scripts/pythonw.exe
 .vscode/launch.json
 .vscode/tasks.json
 .dockerignore
+=======
+/env
+/.vscode
+/.vs
+/.azure
+/__pycache__
+.dockerignore
+/test.py
+/Dockerfile
+
+>>>>>>> 8a0396b4e542ebf7e6008db6f7c383366e50e007
