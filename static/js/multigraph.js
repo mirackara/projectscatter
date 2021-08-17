@@ -62,7 +62,7 @@ function searchCompare() {
       }
       localStorage['myKey'] = myVar + showSearch +  '+'; // Store cookie of all searches thus far
     
-      var redirect = "http://127.0.0.1:5000/compare/";
+      var redirect = "http://www.scattertv.com/compare/";
       var redirectURL = redirect.concat(myVar + showSearch +  '+');
       location.replace(redirectURL);
     }
