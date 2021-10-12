@@ -1,3 +1,7 @@
+V0.4.1
+*Fixed issue where UpdateShowData would not properly run due to a closed file
+*Changed graph scaler button
+
 V0.4.0
 *Added multi-graph support
 *Changed UI Buttons

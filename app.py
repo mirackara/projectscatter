@@ -1,7 +1,9 @@
 from flask import Flask, request, render_template, make_response
 from flask_restful import Api, Resource
+from UpdateShowData import updateData
 from sendShowData import getShowData
 from copy import deepcopy
+
 
 app = Flask(__name__)
 api = Api(app)
@@ -94,6 +96,7 @@ api.add_resource(showInfoCompare, "/compare/<string:showName>")
 
 
 
-# Start Web App
+# Start Web App, update ratings
 if __name__ == '__main__':
-    app.run(debug=True)
+    updateData()
+    app.run()

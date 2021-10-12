@@ -21,7 +21,6 @@ def getData():
     ##  startYear, endYear, runtimeMinutes, genres]
     rawShowNames = open("showNames.csv", 'r', encoding="utf-8")
     showNamesCSV = csv.reader(rawShowNames, delimiter='\t')
-    rawShowNames.close()
     epNames = {}
 
     ##  Cleaning up showNames a bit by removing any movies or short-movies

@@ -55,8 +55,12 @@
         <p id="seasonsInShow"></p>
         
         <!-- Scale Button -->
-        <input hidden type="checkbox" id="yAxisScale" name="yAxisScale" value="Scale" onclick="checkBoxScaler();" class = "checkBoxSwitch">
-        <input type="button"  id = "checkBtn" class="btn btn-primary" value="Scale" onclick="buttonChecked();"><br>
+        <span>
+          <div class="btn-group" role="group">
+            <input type="button" class="btn btn-primary" value = "Scaled" onclick = 'checkBoxScaler(true);'>
+            <input type="button" class="btn btn-primary" value = "Unscaled" onclick = 'checkBoxScaler(false);'>
+          </div>
+        </span>
         
         <!-- Best/Worst Ep-->
         <h2 style = "color: white;"> Best Episode: {{ bestEpName }} - {{ bestEpRating }} </h2> 

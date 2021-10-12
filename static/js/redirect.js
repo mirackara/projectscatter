@@ -90,15 +90,11 @@ function printData() {
   return chartData;
 }
 
-function checkBoxScaler() {
-  var checkBox = document.getElementById("yAxisScale");
-      if (checkBox.checked){
-          console.log("Check True!");
+function checkBoxScaler(isScaled) {
+      if (isScaled){
           loadChartData(true);
     } else {
-    console.log("Check False!");
     loadChartData(false);
-
   }
 }
 function buttonChecked() {
@@ -107,7 +103,7 @@ function buttonChecked() {
           $(':checkbox').prop('checked', !$(':checkbox').prop('checked'));
       });
   });
-  checkBox();
+  checkBoxScaler(); // Scaler Function
 }
 function toggleDataSeries(e) {
   if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible ){

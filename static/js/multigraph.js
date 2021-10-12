@@ -1,6 +1,8 @@
 var graphList = [];
 var chartContainerList = [];
 
+console.log(graphList);
+console.log(chartContainerList);
 
 window.onload = function checkView() {
   console.log(localStorage['viewPref']);
@@ -161,7 +163,7 @@ function clearAll(){
   localStorage.clear();
 
   // Next, we clear the URL
-  var redirect = "http://127.0.0.1:5000/";
+  var redirect = "http://www.scattertv.com/";
   location.replace(redirect);
 }
 
