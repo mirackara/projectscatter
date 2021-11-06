@@ -7,7 +7,7 @@ input.addEventListener("keyup", function(event) {
   }
 });
 
-
+console.log(showData);
 
 //  EXPERIMENTAL : Trendlines
 

@@ -98,5 +98,5 @@ api.add_resource(showInfoCompare, "/compare/<string:showName>")
 
 # Start Web App, update ratings
 if __name__ == '__main__':
-    updateData()
+    #updateData()
     app.run()

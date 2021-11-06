@@ -12,7 +12,7 @@
 
     <script>
         //  to use python variables in js file
-        var showName = ' {{ showData.keys() }} '; // Show name as a dict_key value
+        var showName = ' {{ showName }} '; // Show name as a dict_key value
         var showData = JSON.parse('{{showData | tojson}}');
         var statusCode = ' {{ statusCode }} ';
         var seasons = ' {{ seasons }} ';
