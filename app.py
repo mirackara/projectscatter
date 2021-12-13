@@ -82,10 +82,10 @@ class showInfoCompare(Resource):
                 showData, seasons = getShowData(show, seasons, True)
                 testList.append(deepcopy(showData))
 
-            return make_response(render_template('multigraph.html', test=testList, numOfShows=numOfShows, lastShowAdded = 'true'))
+            return make_response(render_template('djangoTest/scatterbox/templates/multigraph.html', test=testList, numOfShows=numOfShows, lastShowAdded ='true'))
         except:  # Show not found..
             print("error")
-            return make_response(render_template('multigraph.html', test=testList, numOfShows=numOfShows, lastShowAdded = 'false'))
+            return make_response(render_template('djangoTest/scatterbox/templates/multigraph.html', test=testList, numOfShows=numOfShows, lastShowAdded ='false'))
 
     def put(self, showName):
         print(request.form["Schitt's Creek"])

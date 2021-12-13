@@ -40,14 +40,15 @@
       <form action = "" method = "POST">
           {% csrf_token %}
           <span>
-            <center>
+            <div style="text-align: center;">
               <input type="search" name = "searchBar" id = "searchBar"  class="form-control-small rounded" placeholder="search for a show" style = "border-color:#2a3942;"/>
               <div class="btn-group" role="group">
               <input type="submit" name = "searchBtn" id = "searchBtn" value="search" class="btn btn-primary">
               <input type="submit" name = "compareBtn" id = "compareBtn" value = "compare"  class="btn btn-primary" onclick = 'test();'/>
+              <input hidden name = "showsToCompare" id = "showsToCompare" value =""></p>
               </div>
               </div>
-            </center>
+            </div>
           </span>
       </form>
       <br>

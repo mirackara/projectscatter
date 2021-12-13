@@ -3,5 +3,6 @@ from . import views
 
 # URLConf
 urlpatterns = [
-    path('', views.testHandler),
+
+    path('', views.eventHandler),
 ]

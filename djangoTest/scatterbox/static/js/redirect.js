@@ -103,7 +103,7 @@ function test(){
     var concatTitles = [input, showName];
     document.getElementById("searchBar").innerHTML = concatTitles;
     console.log(concatTitles);
-    console.log(input)
+    console.log(document.getElementById("searchBar").innerHTML);
 
     alert("test");
 
