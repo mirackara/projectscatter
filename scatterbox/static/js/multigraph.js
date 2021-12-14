@@ -110,9 +110,6 @@ function clearAll(){
   localStorage.clear();
   // Then, we send the removeAll command to Python
   document.getElementById("showsToRemove").value += "REMOVEALL";
-  // Next, we clear the URL
-  var redirect = "http://127.0.0.1:8000/search/";
-  location.replace(redirect);
 }
 
 
