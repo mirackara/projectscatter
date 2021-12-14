@@ -6,6 +6,8 @@ from sendShowData import *
 import json
 
 currShows = []
+
+
 def get(showName):
     seasons = 0
     bestEpName = ""
@@ -26,7 +28,7 @@ def getMultipleShows(listOfShows):
     showData = []
     try:
         for show in listOfShows:
-            print("Curr Show: " , show)
+            print("Curr Show: ", show)
             seasons = 0
             currShowData, seasons = getShowData(show, seasons, True)
             showData.append(deepcopy(currShowData))
@@ -34,7 +36,7 @@ def getMultipleShows(listOfShows):
                 'showList': json.dumps(listOfShows)}
     except:
         print("Error!")
-        print("showData ERROR : " , showData)
+        print("showData ERROR : ", showData)
         return {'test': json.dumps(showData), 'numOfShows': len(listOfShows), 'lastShowAdded': 'false',
                 'showList': json.dumps(listOfShows[:1])}
 
@@ -82,9 +84,7 @@ def compareHandler(request):
     elif 'clearMe' in request.POST:
         print("Removing all!")
         currShows.clear()
-
         return redirect('/search/')
-
     # Add Show
     elif 'compareBtn' in request.POST:
         searchedShow = request.POST['searchBar']
@@ -95,5 +95,3 @@ def compareHandler(request):
                 currShows.remove(show)
         currShows.append(searchedShow)
         return render(request, "multigraph.html", getMultipleShows(currShows))
-
-
