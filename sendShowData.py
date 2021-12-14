@@ -15,7 +15,7 @@ def searchSubstring(showData, showName):
 
 
 def getShowData(showName, seasons, isCompare):
-    fileHandler = open('showdata.csv', "r", encoding="ISO-8859-1")
+    fileHandler = open('scatterbox/showdata.csv', "r", encoding="ISO-8859-1")
     showData = csv.reader(fileHandler, delimiter=",")  # IMDb Data
 
     showInfo = []
@@ -70,13 +70,15 @@ def getShowData(showName, seasons, isCompare):
             tempDict.clear()
             tempDict[seasonName] = []  # Reinitialize tempDict
         if seasonName in tempDict:
-
+            if "'" in item[5]:
+                item[5] = item[5].replace("'", "AH")
             tempList = [item[5], item[4]]  # Adds Episode name, Rating to list
            # print(item[5])
             tempDict[seasonName].append(tempList)
     cleanedList.append(dict(tempDict))  # Adds last season to dictionary
 
     dictToReturn = {}
+    showName = showInfo[1][1]
     dictToReturn[showInfo[1][1]] = cleanedList
     # print(dictToReturn)
     # Deletes any empty values
@@ -84,7 +86,7 @@ def getShowData(showName, seasons, isCompare):
 
     ##  For comparing graphs, we only need show data and seasons
     if not isCompare:
-        return dictToReturn, seasons, bestEpName, bestEpRating, worstEpName, worstEpRating
+        return dictToReturn, seasons, bestEpName, bestEpRating, worstEpName, worstEpRating, showName
     else:
         return dictToReturn, seasons
 

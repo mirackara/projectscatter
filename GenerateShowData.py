@@ -30,7 +30,7 @@ def getData():
 
     ##  Combine rearranged data into empty showdata csv
     ##  showData.csv = [tconst, parentTconst, seasonNumber, episodeNumber, averageRating]
-    with open('showdata.csv', 'w', newline='') as f:
+    with open('../showdata.csv', 'w', newline='') as f:
         writer = csv.writer(f)
         for row in sortedlist:
             tconst = row[0]  ## tconst = episodeID
