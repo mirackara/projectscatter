@@ -1,3 +1,6 @@
+V0.5.1
+*Implemented use of Azure CDN for Static Files
+
 V0.5.0
 *Migrated from Flask to Django
 *Reformatted project structure

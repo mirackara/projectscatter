@@ -4,13 +4,12 @@
   <head>
     <title> Home </title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link rel= "stylesheet" type= "text/css" href= "{% static 'css/bootstrap.min.css' %}">
+    <link rel= "stylesheet" type= "text/css" href= "https://scattertvstatics.blob.core.windows.net/test/bootstrap.min.css">
 
-    <script type="text/javascript" src = "{% static 'js/jquery.min.js' %}"></script>
-    <script type="text/javascript" src = "{% static 'js/canvasjs.min.js' %}"></script>
-    <script type="text/javascript" src = "{% static 'js/bootstrap.min.js' %}"></script>
-    <script type="text/javascript" src = "{% static 'js/multigraph.js' %}"></script>
+    <script type="text/javascript" src = "https://scattertvstatics.blob.core.windows.net/test/jquery.min.js"></script>
+    <script type="text/javascript" src = "https://scattertvstatics.blob.core.windows.net/test/jquery.canvasjs.min.js"></script>
+    <script type="text/javascript" src = "https://scattertvstatics.blob.core.windows.net/test/bootstrap.min.js"></script>
+
 
     <script>
         //  to use python variables in js file
@@ -55,7 +54,7 @@
       <!-- Graph Container -->
       <div class = "container">
         <div id="chartContainer" style="height: 600px; max-width: 1200px; margin: 0px auto;"></div>
-          <script type="text/javascript" src = "{% static 'js/canvasjs.min.js' %}"></script>
+          <script type="text/javascript" src = "https://scattertvstatics.blob.core.windows.net/test/canvasjs.min.js"></script>
 
         <p id="showNameID"></p>
         <p id="seasonsInShow"></p>
@@ -71,7 +70,7 @@
         <!-- Best/Worst Ep-->
         <h2 style = "color: white;"> Best Episode: {{ bestEpName }} - {{ bestEpRating }} </h2> 
         <h2 style = "color: white;"> Worst Episode: {{ worstEpName }} - {{ worstEpRating }} </h2> 
-        <script type="text/javascript" src = "{% static 'js/redirect.js' %}"></script>
+        <script type="text/javascript" src = "https://scattertvstatics.blob.core.windows.net/test/redirect.js"></script>
 
       </div>
   </body>
