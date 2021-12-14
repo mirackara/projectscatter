@@ -1,3 +1,8 @@
+V0.5.0
+*Migrated from Flask to Django
+*Reformatted project structure
+
+
 V0.4.1
 *Fixed issue where UpdateShowData would not properly run due to a closed file
 *Changed graph scaler button
