@@ -19,7 +19,7 @@ click==8.0.3
 <br>
 colorama==0.4.4
 <br>
-Django==4.0
+Django==3.2.9
 <br>
 itsdangerous==2.0.1
 <br>
