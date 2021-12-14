@@ -159,13 +159,6 @@ function search(wantsCompare) {
   if (showSearch.length == 0){  // Empty Search Bar
     console.log("Empty!")
     document.getElementById("showNameID").innerHTML = "Please type a Show Name";
-  } else {
-    // Redirect to search
-    var redirect = "http://www.scattertv.com/search/";
-    var redirectURL = redirect.concat(showSearch);
-    console.log(showSearch)
-    location.replace(redirectURL);
-    return ` You searched for ${showSearch}`;
   }
 }
 window.onload = function checkStatus() {
