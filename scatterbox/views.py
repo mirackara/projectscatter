@@ -87,7 +87,7 @@ def eventHandler(request):
     # Home Screen
     if request.POST == {}:
         print(request.POST)
-        return render(request, "home.html", get("The Cisco Kid"))
+        return render(request, "home.html", get("How I met your mother"))
     # Search
     elif 'searchBtn' in request.POST:
         print(request.POST)
