@@ -1,8 +1,7 @@
-import csv
-import urllib.request
 import gzip
 import shutil
-import os
+import urllib.request
+
 from GenerateShowData import *
 
 
@@ -10,6 +9,7 @@ def unzip(fileIn, fileOut):
     with gzip.open(fileIn, 'rb') as f_in:
         with open(fileOut, 'wb') as f_out:
             shutil.copyfileobj(f_in, f_out)
+
 
 def updateData():
 
@@ -31,10 +31,6 @@ def updateData():
     getData()
 
     # Clean up temp files..
-    print("Cleaning Up Files...")
-    os.remove('tempData/ratingsGet.tsv.gz')
-    os.remove('tempData/dataFullGet.tsv.gz')
-    os.remove('tempData/showNamesGet.tsv.gz')
-    os.remove('ratings.csv')
-    os.remove('showNames.csv')
-    os.remove('dataFull.csv')
+
+
+updateData()

@@ -3,8 +3,10 @@
 import csv
 import operator
 
-def getData():
+print("Running")
 
+
+def getData():
     ##  dataFull.csv = [tconst, parentTconst, seasonNumber, episodeNumber]
     ##                 (episode ID), (TV Show ID)
     data = csv.reader(open('dataFull.csv'), delimiter='\t')
@@ -15,7 +17,7 @@ def getData():
     ratings = csv.reader(open('ratings.csv'), delimiter='\t')
     tconstRatings = {}
     for row in ratings:
-        tconstRatings[row[0]] = row[1] #  tconstRatings["tconst"] = averageRating
+        tconstRatings[row[0]] = row[1]  # tconstRatings["tconst"] = averageRating
 
     ##  showNames.csv = [tconst, titleType, primaryTitle, originalTitle, isAdult,
     ##  startYear, endYear, runtimeMinutes, genres]
@@ -30,7 +32,8 @@ def getData():
 
     ##  Combine rearranged data into empty showdata csv
     ##  showData.csv = [tconst, parentTconst, seasonNumber, episodeNumber, averageRating]
-    with open('../showdata.csv', 'w', newline='') as f:
+    entryCounter = 0
+    with open('showdata.csv', 'w', newline='') as f:
         writer = csv.writer(f)
         for row in sortedlist:
             tconst = row[0]  ## tconst = episodeID
@@ -42,5 +45,19 @@ def getData():
                     ##  Adds the episode name to the row
                     row.append(epNames[tconst])
                     if row[1] in epNames:
-                        row[1] = epNames[row[1]]
+                        curEpName = epNames[row[1]]
+                        row[1] = curEpName
+                    if ',' in row[1]:
+                        tmpString = row[1]
+                        tmpString = tmpString.replace(",", "")
+                        row[1] = tmpString
+                for i in range(0, len(row)):
+                    # String Cleaning for SQL
+                    row[i] = row[i].replace("'", "''")
+                    row[i] = row[i].replace('"', '')
+
                 writer.writerow(row)
+
+
+getData()
+print("Done!")

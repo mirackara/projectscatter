@@ -1,3 +1,9 @@
+V0.6.0
+* Created a Show Database via MySQL
+* Depreciated use of SendShowData.py
+* Added SQLConnection file which shows how data is pushed onto the Azure MySQL server
+* Added user choice for multiple shows found
+
 V0.5.1
 *Implemented use of Azure CDN for Static Files
 

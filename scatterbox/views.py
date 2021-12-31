@@ -1,9 +1,9 @@
+import json
 from copy import deepcopy
 
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from sendShowData import *
-import json
+
+from pullShowData import *
 
 currShows = []
 
@@ -15,11 +15,37 @@ def get(showName):
     bestEpRating = 0.0
     worstEpRating = 0.0
     returnedName = ""
-    showData, seasons, bestEpName, bestEpRating, worstEpName, worstEpRating, returnedName = getShowData(
-        showName, seasons, False)
+    showData, seasons, bestEpName, bestEpRating, worstEpName, worstEpRating, returnedName = SQLRequest(
+        showName)
+    # Multiple Shows Found
+    if showData == -1000:
+        for i in range(0, len(returnedName)):
+            returnedName[i] = returnedName[i].replace("'", '')
+            print(returnedName[i])
+        headers = {'Content-Type': 'text/html'}
+        return {'showName': json.dumps(returnedName), 'seasons': seasons, 'showData': json.dumps(showData),
+                'bestEpName': bestEpName,
+                'bestEpRating': bestEpRating,
+                'worstEpName': worstEpName, 'worstEpRating': worstEpRating, 'statusCode': 401}
+
+    # No Show Found
+    if showData == -999:
+        print("Unable to Load show.")
+        showData, seasons, bestEpName, bestEpRating, worstEpName, \
+        worstEpRating, returnedName = SQLRequest("Breaking Bad")
+        statusCode = 404
+        headers = {'Content-Type': 'text/html'}
+        return {'showName': json.dumps(returnedName), 'seasons': seasons, 'showData': json.dumps(showData),
+                'bestEpName': bestEpName,
+                'bestEpRating': bestEpRating,
+                'worstEpName': worstEpName, 'worstEpRating': worstEpRating, 'statusCode': statusCode}
+
+    print("Show Data: ", showData)
+    print("Seasons: ", seasons)
     statusCode = 200
     headers = {'Content-Type': 'text/html'}
-    return {'showName': returnedName, 'seasons': seasons, 'showData': json.dumps(showData), 'bestEpName': bestEpName,
+    return {'showName': json.dumps(returnedName), 'seasons': seasons, 'showData': json.dumps(showData),
+            'bestEpName': bestEpName,
             'bestEpRating': bestEpRating,
             'worstEpName': worstEpName, 'worstEpRating': worstEpRating, 'statusCode': statusCode}
 
@@ -30,27 +56,38 @@ def getMultipleShows(listOfShows):
         for show in listOfShows:
             print("Curr Show: ", show)
             seasons = 0
-            currShowData, seasons = getShowData(show, seasons, True)
-            showData.append(deepcopy(currShowData))
+            statusCode = 0
+            currShowData, seasons, bestEpName, bestEpRating, worstEpName, \
+            worstEpRating, returnedName = SQLRequest(show)
+            # Multiple Shows Found
+            if currShowData == -1000:
+                print("-1000 Error Code")
+                for i in range(0, len(returnedName)):
+                    returnedName[i] = returnedName[i].replace("'", '')
+                returnedName.append(show)
+                headers = {'Content-Type': 'text/html'}
+                return {'showName': json.dumps(returnedName), 'seasons': seasons, 'test': json.dumps(showData),
+                        'numOfShows': len(listOfShows), 'lastShowAdded': 'false', 'showList': json.dumps(listOfShows),
+                        'statusCode': 401}
+            else:
+                showData.append(deepcopy(currShowData))
         return {'test': json.dumps(showData), 'numOfShows': len(listOfShows), 'lastShowAdded': 'true',
-                'showList': json.dumps(listOfShows)}
-    except:
-        print("Error!")
+                'showList': json.dumps(listOfShows), 'statusCode': 200, 'showName': '200'}
+    except KeyError:
+        print("Error!", KeyError)
         print("showData ERROR : ", showData)
         return {'test': json.dumps(showData), 'numOfShows': len(listOfShows), 'lastShowAdded': 'false',
-                'showList': json.dumps(listOfShows[:1])}
-
+                'showList': json.dumps(listOfShows[:1]), 'statusCode': 404, 'showName': '404'}
 
 def indexHandler(request):
     return redirect('/search/')
-
 
 # Request Handler
 def eventHandler(request):
     # Home Screen
     if request.POST == {}:
         print(request.POST)
-        return render(request, "home.html", get("Breaking Bad"))
+        return render(request, "home.html", get("The Cisco Kid"))
     # Search
     elif 'searchBtn' in request.POST:
         print(request.POST)
