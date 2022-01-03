@@ -149,17 +149,19 @@ function bestEpisode(data) {
   }
 }
 function search(wantsCompare) {
-  if (wantsCompare == "compare") {
-    localStorage['myKey'] = spliced + '+';
-    lastShowAdded = "true";
-    searchCompare();
-    return;
-  }
-  var showSearch = document.getElementById('searchBar').value; // First element
-  if (showSearch.length == 0){  // Empty Search Bar
-    console.log("Empty!")
-    document.getElementById("showNameID").innerHTML = "Please type a Show Name";
-  }
+    if (wantsCompare == "compare") {
+        localStorage['myKey'] = spliced + '+';
+        lastShowAdded = "true";
+        searchCompare();
+        return;
+    }
+    var showSearch = document.getElementById('searchBar').value; // First element
+    console.log(showSearch);
+
+    if (showSearch.length == 0) {  // Empty Search Bar
+        console.log("Empty!")
+        document.getElementById("showNameID").innerHTML = "Please type a Show Name";
+    }
 }
 window.onload = function checkStatus() {
   if (statusCode == 200) { // Successfully loaded data from Python
@@ -175,8 +177,15 @@ window.onload = function checkStatus() {
     return;
   }
   if (statusCode = 400) { // Did not load data from Python
-    console.log("fail!");
-    document.getElementById("showNameID").innerHTML = "Cannot find show. Try another one.";
+      console.log("fail!");
+      chart = loadChartData();
+      // calculateTrendLine(chart);
+      chart.render();
+      document.getElementById("bestEp").innerHTML = bestEpisode(chart.data);
+      document.getElementById("worstEp").innerHTML = bestEpisode(chart.data);
+      document.getElementById("showNameID").innerHTML = "Cannot find show. Try another one.";
+
+
   }
 }
 

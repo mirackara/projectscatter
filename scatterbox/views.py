@@ -6,8 +6,6 @@ from django.shortcuts import render, redirect
 from pullShowData import *
 
 currShows = []
-
-
 def get(showName):
     seasons = 0
     bestEpName = ""
@@ -32,7 +30,7 @@ def get(showName):
     if showData == -999:
         print("Unable to Load show.")
         showData, seasons, bestEpName, bestEpRating, worstEpName, \
-        worstEpRating, returnedName = SQLRequest("Breaking Bad")
+        worstEpRating, returnedName = SQLRequest("How I met your mother")
         statusCode = 404
         headers = {'Content-Type': 'text/html'}
         return {'showName': json.dumps(returnedName), 'seasons': seasons, 'showData': json.dumps(showData),
@@ -92,6 +90,11 @@ def eventHandler(request):
     elif 'searchBtn' in request.POST:
         print(request.POST)
         searchedShow = request.POST['searchBar']
+        if len(searchedShow) < 3:
+            returningParams = get("How I Met your Mother")
+            returningParams['statusCode'] = 400
+            return render(request, "home.html", returningParams)
+
         return render(request, "home.html", get(searchedShow))
     # Compare
     elif 'compareBtn' in request.POST:
@@ -130,5 +133,12 @@ def compareHandler(request):
         for show in showsToRemoveList:
             if show in currShows:
                 currShows.remove(show)
+        if len(searchedShow) < 3:
+            requestParams = getMultipleShows(currShows)
+            requestParams['lastShowAdded'] = 'false'
+            requestParams['statusCode'] = 400
+            return render(request, "multigraph.html", requestParams)
+
         currShows.append(searchedShow)
+
         return render(request, "multigraph.html", getMultipleShows(currShows))

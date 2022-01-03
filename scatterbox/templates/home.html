@@ -1,87 +1,100 @@
 <!DOCTYPE html>
 <html>
 {% load static %}
-  <head>
-      <title> Home </title>
-      <meta charset="UTF-8">
-      <link rel="stylesheet" type="text/css"
-            href="https://scattertvstatics.blob.core.windows.net/test/bootstrap.min.css">
-      <script type="text/javascript" src="https://scattertvstatics.blob.core.windows.net/test/jquery.min.js"></script>
-      <script type="text/javascript"
-              src="https://scattertvstatics.blob.core.windows.net/test/jquery.canvasjs.min.js"></script>
-      <script type="text/javascript"
-              src="https://scattertvstatics.blob.core.windows.net/test/bootstrap.min.js"></script>
+<head>
+    <title> Home </title>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://scattertvstatics.blob.core.windows.net/test/bootstrap.min.css">
+    <script type="text/javascript"
+            src="https://scattertvstatics.blob.core.windows.net/test/jquery.canvasjs.min.js"></script>
+    <script type="text/javascript" src="https://scattertvstatics.blob.core.windows.net/test/bootstrap.min.js"></script>
 
 
-      <script>
-          //  to use python variables in js file
-          var statusCode = ' {{ statusCode }} ';
+    <script>
+        //  to use python variables in js file
+        var statusCode = ' {{ statusCode }} ';
           var showData = JSON.parse('{{ showData | safe }}');
           var seasons = ' {{ seasons }} ';
           var showName = JSON.parse('{{ showName | safe }}');
-          var chart;
-          var chartData;
-      </script>
-
-      <style>
-          .btn-primary, .btn-primary:visited {
-              background-color: #2a3942 !important;
-              border-color: white
-          }
-
-          .btn-primary:hover, .btn-primary:active {
+        var chart;
+        var chartData;
+    </script>
+    <style>
+        .btn-primary, .btn-primary:visited {
             background-color: #2a3942 !important;
+            border-color: white;
+            height: 35px;
+
+        }
+
+        .btn-primary:hover, .btn-primary:active {
+            background-color: #1f2931 !important;
             border-color: black
-          }
+        }
+
+        .form-control-small {
+            color: black;
+            border-color: white;
+            height: 35px;
+        }
+
+        .form-control-small:hover, .form-control-small:active {
+            border-color: black
+        }
     </style>
 
-  </head>
-  <body style = "background-color: #32373a ;">
-      <h1><a style = "color: white;" onclick="location.href='https://www.scattertv.com';">ScatterTV</a></h1>
-      <!-- Search Bar / Buttons -->
-      <form action = "" method = "POST">
-          {% csrf_token %}
-          <span id="menuBar">
+</head>
+<body style="background-color: #32373a ;">
+<h1><a style="color: white;" onclick="location.href='https://www.scattertv.com';">ScatterTV</a></h1>
+<!-- Search Bar / Buttons -->
+<form action="" method="POST">
+    {% csrf_token %}
+    <span id="menuBar">
             <div style="text-align: center;">
               <input type="search" name="searchBar" id="searchBar" class="form-control-small rounded"
                      placeholder="search for a show" style="border-color:#2a3942;"/>
-              <div class="btn-group" role="group">
-              <input type="submit" name="searchBtn" id="searchBtn" value="search" class="btn btn-primary">
+              <input type="submit" name="searchBtn" id="searchBtn" value="search" class="btn btn-primary"
+                     onclick='search(false);'>
               <input type="submit" name="compareBtn" id="compareBtn" value="compare" class="btn btn-primary"
                      onclick='compareRedirect();'/>
               <input hidden name="showsToCompare" id="showsToCompare" value=""></p>
               </div>
-              </div>
-              </div>
           </span>
-      </form>
-      <br>
-      <!-- Graph Container -->
-      <div class = "container">
-        <div id="chartContainer" style="height: 600px; max-width: 1200px; margin: 0px auto;"></div>
-          <script type="text/javascript" src = "https://scattertvstatics.blob.core.windows.net/test/canvasjs.min.js"></script>
+</form>
 
-        <p id="showNameID"></p>
-        <p id="seasonsInShow"></p>
+<div style="text-align: center; color: white;">
+    <p id="showNameID"></p>
+</div>
 
-        <!-- Scale Button -->
-        <span>
-          <div class="btn-group" role="group">
-            <input type="button" class="btn btn-primary" value = "Scaled" onclick = 'checkBoxScaler(true);'>
-            <input type="button" class="btn btn-primary" value = "Unscaled" onclick = 'checkBoxScaler(false);'>
-          </div>
-        </span>
-        
-        <!-- Best/Worst Ep-->
-        <h2 style = "color: white;"> Best Episode: {{ bestEpName }} - {{ bestEpRating }} </h2> 
-        <h2 style = "color: white;"> Worst Episode: {{ worstEpName }} - {{ worstEpRating }} </h2>
-          <script type="text/javascript"
-                  src="https://scattertvstatics.blob.core.windows.net/test/redirect-SQL.js"></script>
-      </div>
-  </body>
+<!-- Graph Container -->
+<div class="container">
+    <div id="chartContainer" style="height: 600px; max-width: 1200px; margin: 0px auto;"></div>
+    <script type="text/javascript" src="https://scattertvstatics.blob.core.windows.net/test/canvasjs.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/redirect.js' %}"></script>
+    <p id="seasonsInShow"></p>
+    <span>
+
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-2">
+                    <!-- Scale Button -->
+                    <input type="button" class="btn btn-primary" value="Scaled" onclick='checkBoxScaler(true);'>
+                    <input type="button" class="btn btn-primary" value="Unscaled" onclick='checkBoxScaler(false);'>
+                </div>
+                <div class="col-sm-4">
+                    <!-- Best/Worst Ep-->
+                    <p style="color: white;"> Best Episode: {{ bestEpName }} - {{ bestEpRating }}</p>
+                    <p style="color: white;"> Worst Episode: {{ worstEpName }} - {{ worstEpRating }}  </p>
+                </div>
+              </div>
+            </div>
+      </span>
+</div>
+</body>
 <!-- Footer -->
 <footer class="fixed-bottom">
-    <div class="text-left p-3" style="background-color:#2a3942">
+    <div class="text-left p-3" style="background-color:#2a3942; height: 50px;">
         <a class="text-white" href="https://github.com/mirackara/projectscatter">GitHub</a>
     </div>
 </footer>

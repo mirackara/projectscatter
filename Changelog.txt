@@ -1,3 +1,7 @@
+V0.6.1
+* Downgraded JQuery Version
+* GUI Improvements
+* Python Optimizations
 V0.6.0
 * Created a Show Database via MySQL
 * Depreciated use of SendShowData.py

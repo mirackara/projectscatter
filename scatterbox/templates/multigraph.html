@@ -5,7 +5,7 @@
     <title> Compare </title>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="https://scattertvstatics.blob.core.windows.net/test/bootstrap.min.css">
-    <script type="text/javascript" src="https://scattertvstatics.blob.core.windows.net/test/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script type="text/javascript" src="https://scattertvstatics.blob.core.windows.net/test/canvasjs.min.js"></script>
     <script type="text/javascript" src="https://scattertvstatics.blob.core.windows.net/test/bootstrap.min.js"></script>
     <script>
@@ -24,62 +24,73 @@
         console.log(showListFull);
 
     </script>
-
     <style>
         .btn-primary, .btn-primary:visited {
             background-color: #2a3942 !important;
-            border-color: white
+            border-color: white;
+            height: 50px;
+
         }
 
         .btn-primary:hover, .btn-primary:active {
-            background-color: #2a3942 !important;
+            background-color: #1f2931 !important;
             border-color: black
-          }
+        }
+
+        .form-control-small {
+            color: black;
+            border-color: white;
+            height: 30px;
+        }
+
+        .form-control-small:hover, .form-control-small:active {
+            border-color: black
+        }
     </style>
-
-  </head>
-    <body>
-        <h1><a style = "color: white;" onclick="location.href='https://www.scattertv.com';">ScatterTV</a></h1>
-        <!-- Search Bar / Buttons -->
-        <body style = "background-color: #32373a ;">
-      <form action = "" method = "POST">
-        {% csrf_token %}
-          <span id="menuBar">
-            <center>
+</head>
+<body>
+<h1><a style="color: white;" onclick="location.href='https://www.scattertv.com';">ScatterTV</a></h1>
+<!-- Search Bar / Buttons -->
+<body style="background-color: #32373a ;">
+<form action="" method="POST">
+    {% csrf_token %}
+    <span id="menuBar">
+            <div style="text-align: center;">
               <input type="search" name="searchBar" id="searchBar" class="form-control-small rounded"
-                     placeholder="search for a show" style="border-color:#2a3942;"/>
-              <div class="btn-group" role="group">
-              <input type="submit" name="compareBtn" id="compareBtn" value="compare" class="btn btn-primary"
-                     onclick='searchCompare()'/>
-              <input type="submit" id="clearMe" name="clearMe" type="button" value="clear all" onclick="clearAll();"
-                     class="btn btn-primary"/>
-              <input id="listView" type="button" value="list" onclick="viewChange('listView');"
-                     class="btn btn-primary"/>
-              <input id="gridView" type="button" value="grid" onclick="viewChange('gridView');"
-                     class="btn btn-primary"/>
-              <input hidden name="showsToCompare" id="showsToCompare" value=""></p>
-                  <input hidden name="showsToRemove" id="showsToRemove" value=""></p>
+                     placeholder="search for a show"/>
+                  <input type="submit" name="compareBtn" id="compareBtn" value="compare" class="btn btn-primary"
+                         onclick='searchCompare()'/>
+                  <input type="submit" id="clearMe" name="clearMe" type="button" value="clear all" onclick="clearAll();"
+                         class="btn btn-primary"/>
+                  <input id="listView" type="button" value="list" onclick="viewChange('listView');"
+                         class="btn btn-primary"/>
+                  <input id="gridView" type="button" value="grid" onclick="viewChange('gridView');"
+                         class="btn btn-primary"/>
+                  <input hidden name="showsToCompare" id="showsToCompare" value=""></p>
+                <input hidden name="showsToRemove" id="showsToRemove" value=""></p>
               </div>
-            </center>
-            <br>
+        </div>
           </span>
-      </form>
-      <!-- Graph Container -->
-      <div class="container">
-          <div class="row" id="container"></div>
-      </div>
-        </body>
+</form>
+<div style="text-align: center; color: white;">
+    <p id="queryResponse"></p>
+</div>
 
-        <br><br><br>
+<!-- Graph Container -->
+<div class="container">
+    <div class="row" id="container"></div>
+</div>
+</body>
 
-        <script type="text/javascript"
-                src="https://scattertvstatics.blob.core.windows.net/test/multigraph-SQL.js"></script>
+<br><br><br>
 
-        <!-- Footer -->
-        <footer class="fixed-bottom">
-            <div class="text-left p-3" style="background-color:#2a3942; height: 25%;">
-                <a class="text-white" href="https://github.com/mirackara/projectscatter">GitHub</a>
-            </div>
-        </footer>
+<script type="text/javascript" src="{% static 'js/multigraph.js' %}"></script>
+
+<!-- Footer -->
+<footer class="fixed-bottom">
+    <div class="text-left p-3" style="background-color:#2a3942; height: 25%;">
+        <a class="text-white" href="https://github.com/mirackara/projectscatter">GitHub</a>
+    </div>
+</footer>
 
 </html>
