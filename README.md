@@ -1,15 +1,26 @@
 # projectscatter - created by Mirac Kara
 ![Home Page](https://user-images.githubusercontent.com/55501260/134286415-a5830750-de3a-42b5-8373-c8616e2296ad.png)
 
-<h3>Description</h3>
+## Description
 
 ScatterTV is a Django based Web-Application that plots TV Shows on a CanvasJS graph in accordance to the shows ratings using weekly updated datasets that get pulled directly 
 from IMDB's website! 
 <br>
 
-<h3>Live Site</h3>
+## Live Site
 
 www.scattertv.com - Deployed using Microsoft Azure
+
+## Installation & Running
+You must have Python 3 installed. The project was tested and developed using Python 3.8.
+
+Download the desired release's source code on GitHub (NOTE: Version 0.6.0 and above require a MySQL server). Navigate to the project directory, start the script with
+the following command:
+```shell
+$  python manage.py runserver 
+```
+Note: Debug Mode is turned on by default. If static files are stored locally, you must keep it on.
+
 <h3>Requirements</h3>
 aniso8601==9.0.1
 <br>
@@ -39,7 +50,5 @@ tzdata==2021.5
 <br>
 Werkzeug==2.0.2
 <br>
-
-
 
 
